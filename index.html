@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>審査ページ｜食育推進コンテスト2026（後援団体専用）</title>
+<meta name="description" content="麻生区PTA協議会 食育推進コンテストの後援団体向け審査ページ。外部公開ではありません。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --tomato:#C4452D;
+  --tomato-deep:#9A2F1C;
+  --nori:#2A2521;
+  --nori-soft:#5C534C;
+  --paper:#F6EFE3;
+  --card:#FFFdf7;
+  --line:#E4D6C3;
+  --shiso:#3F6B4F;
+  --yuzu:#E9A820;
+  --slot:#F3E6D4;
+  --white:#fff;
+  --shadow:0 12px 28px -18px rgba(42,37,33,.45);
+  --font-d:"Zen Maru Gothic",sans-serif;
+  --font-t:"Zen Kaku Gothic New",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--font-t);
+  color:var(--nori);
+  background:
+    radial-gradient(circle at 8% 12%, rgba(196,69,45,.07) 0 40px, transparent 41px),
+    radial-gradient(circle at 92% 6%, rgba(63,107,79,.08) 0 36px, transparent 37px),
+    var(--paper);
+  line-height:1.7;
+  min-height:100dvh;
+}
+h1,h2,h3,button,.brand{font-family:var(--font-d)}
+button{cursor:pointer;font:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+
+/* gate */
+.gate{
+  min-height:100dvh;display:flex;align-items:center;justify-content:center;
+  padding:32px 16px;
+}
+.gate-card{
+  width:min(520px,100%);background:var(--card);border-radius:28px;
+  padding:36px 28px 28px;box-shadow:var(--shadow);
+  border:1px solid var(--line);position:relative;overflow:hidden;
+}
+.gate-card:before{
+  content:"";position:absolute;inset:0 auto auto 0;width:100%;height:10px;
+  background:repeating-linear-gradient(90deg,var(--tomato) 0 28px, var(--card) 28px 56px);
+}
+.stamp{
+  display:inline-block;border:3px solid var(--tomato);color:var(--tomato);
+  font-family:var(--font-d);font-weight:900;letter-spacing:.12em;
+  padding:4px 10px;transform:rotate(-6deg);margin-bottom:14px;
+}
+.gate h1{font-size:clamp(22px,5vw,30px);margin:8px 0 6px;line-height:1.4}
+.gate .lead{color:var(--nori-soft);margin:0 0 22px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{font-weight:700;font-size:13px}
+.field input{
+  border:2px solid var(--line);border-radius:12px;padding:12px 14px;
+  font-size:16px;background:#fff;letter-spacing:.08em;
+}
+.field input:focus{outline:3px solid rgba(196,69,45,.25);border-color:var(--tomato)}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--tomato);color:#fff;border:0;border-radius:999px;
+  font-weight:900;padding:13px 22px;width:100%;font-size:16px;
+}
+.btn:disabled{opacity:.45}
+.btn.ghost{background:transparent;color:var(--nori);border:2px solid var(--line)}
+.warn{color:var(--tomato-deep);font-size:13px;min-height:1.4em;margin:4px 0 10px}
+.fine{font-size:12px;color:var(--nori-soft);margin-top:16px}
+
+/* app chrome */
+.app-bar{
+  position:sticky;top:0;z-index:20;background:rgba(246,239,227,.94);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+}
+.app-bar .inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0}
+.brand{font-weight:900;font-size:14px}
+.brand small{display:block;font-weight:500;color:var(--nori-soft);font-size:11px}
+.org-pill{
+  background:#fff;border:1px solid var(--line);border-radius:999px;
+  padding:6px 12px;font-size:12px;font-weight:700;white-space:nowrap;
+}
+
+.note{
+  background:#fff;border-left:6px solid var(--yuzu);padding:12px 14px;
+  border-radius:0 12px 12px 0;margin:18px 0;font-size:14px;
+}
+.sample-banner{
+  background:var(--tomato);color:#fff;text-align:center;
+  font-family:var(--font-d);font-weight:900;padding:8px 12px;font-size:13px;
+}
+
+.toolbar{display:flex;gap:10px;align-items:center;margin:8px 0 16px}
+.toolbar input{
+  flex:1;border:2px solid var(--line);border-radius:999px;padding:10px 16px;
+  font-size:15px;background:#fff;
+}
+.count{font-size:13px;color:var(--nori-soft);white-space:nowrap}
+
+.grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+  gap:16px;padding-bottom:180px;
+}
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;
+}
+.plate{
+  height:150px;display:flex;align-items:center;justify-content:center;
+  font-size:64px;position:relative;
+}
+.plate .wid{
+  position:absolute;top:10px;left:10px;background:#fff;border-radius:999px;
+  font-size:12px;font-weight:900;padding:3px 9px;font-family:var(--font-d);
+}
+.card-body{padding:14px 14px 12px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h2{font-size:18px;margin:0;line-height:1.35}
+.meta{font-size:13px;color:var(--nori-soft)}
+.meta b{color:var(--nori);font-weight:700}
+.pick{
+  margin-top:auto;display:flex;gap:6px;padding-top:8px;
+}
+.pick button{
+  flex:1;border:2px solid var(--line);background:#fff;border-radius:10px;
+  padding:8px 0;font-size:12px;font-weight:900;color:var(--nori-soft);
+}
+.pick button.on{
+  background:var(--tomato);border-color:var(--tomato);color:#fff;
+}
+.card.chosen{outline:3px solid var(--tomato)}
+
+/* tray */
+.tray{
+  position:fixed;left:0;right:0;bottom:0;z-index:30;
+  background:#2A2521;color:#fff;padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+  box-shadow:0 -10px 30px rgba(0,0,0,.25);
+}
+.tray .inner{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:stretch}
+.slot{
+  background:#3A332E;border-radius:12px;padding:8px 10px;min-height:58px;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.slot em{font-style:normal;font-size:10px;letter-spacing:.08em;color:#E9A820;font-family:var(--font-d);font-weight:900}
+.slot strong{font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tray .send{
+  grid-column:1 / -1;
+  background:var(--tomato);color:#fff;border:0;border-radius:12px;
+  font-weight:900;padding:12px 18px;min-height:44px;
+}
+.tray .send:disabled{opacity:.35}
+
+.step{
+  min-height:100dvh;padding:20px 16px 40px;
+}
+.step-inner{max-width:560px;margin:0 auto}
+.progress{
+  display:flex;gap:8px;margin:8px 0 18px;
+}
+.progress span{
+  flex:1;height:6px;border-radius:99px;background:var(--line);
+}
+.progress span.on{background:var(--tomato)}
+.step-rank{
+  font-family:var(--font-d);font-weight:900;color:var(--tomato);
+  letter-spacing:.08em;font-size:13px;margin:0 0 8px;
+}
+.step-card{
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  overflow:hidden;box-shadow:var(--shadow);margin-bottom:16px;
+}
+.step-card .plate{height:160px}
+.step-card .card-body{padding:16px}
+.step textarea{
+  width:100%;min-height:140px;border:2px solid var(--line);border-radius:16px;
+  padding:14px;font:inherit;background:#fff;resize:vertical;
+}
+.step textarea:focus{outline:3px solid rgba(196,69,45,.25);border-color:var(--tomato)}
+.char{font-size:12px;color:var(--nori-soft);text-align:right;margin:4px 0 14px}
+.row{display:flex;gap:8px}
+.row .btn{width:auto;flex:1}
+.hidden{display:none !important}
+.thanks{text-align:center;padding:80px 20px}
+.thanks h1{font-size:28px}
+</style>
+</head>
+<body>
+<div id="sampleBanner" class="sample-banner hidden">見本データです。本番の応募作品に差し替えるまで、投票は事務局へ送られません。</div>
+
+<section id="gate" class="gate">
+  <div class="gate-card">
+    <div class="stamp">後援団体専用</div>
+    <h1>食育推進コンテスト<br>2026 審査ページ</h1>
+    <p class="lead">お送りした団体コードを入力してください。このページは審査専用です。作品の外部転載・SNS掲載はしないでください。</p>
+    <div class="field">
+      <label for="code">団体コード</label>
+      <input id="code" type="text" inputmode="text" autocomplete="off" placeholder="例）EF-7390" aria-describedby="codeErr">
+    </div>
+    <p id="codeErr" class="warn" role="alert"></p>
+    <button class="btn" id="enterBtn" type="button">作品を見る</button>
+    <p class="fine">主催: 麻生区PTA協議会　／　お問い合わせ: asaokuptashokuiku@gmail.com<br>氏名・学校名・学年は表示しません。<br>運営委員の確認用（見本）: コード <b>EF-7390</b></p>
+  </div>
+</section>
+
+<div id="app" class="hidden">
+  <header class="app-bar">
+    <div class="wrap inner">
+      <div class="brand">食育推進コンテスト 2026<small>後援団体の審査</small></div>
+      <div class="org-pill" id="orgPill"></div>
+    </div>
+  </header>
+  <main class="wrap">
+    <p class="note" id="deadlineNote"></p>
+    <div class="toolbar">
+      <input id="q" type="search" placeholder="メニュー名・テーマ・工夫で探す" aria-label="作品を検索">
+      <span class="count" id="count"></span>
+    </div>
+    <div id="grid" class="grid"></div>
+  </main>
+  <div class="tray" role="region" aria-label="希望作品">
+    <div class="inner">
+      <div class="slot" id="slot1"><em>第1希望</em><strong>未選択</strong></div>
+      <div class="slot" id="slot2"><em>第2希望</em><strong>未選択</strong></div>
+      <div class="slot" id="slot3"><em>第3希望</em><strong>未選択</strong></div>
+      <button class="send" id="sendBtn" type="button" disabled>次へ：作品ごとにコメント</button>
+    </div>
+  </div>
+</div>
+
+<section id="commentStep" class="step hidden">
+  <div class="step-inner">
+    <div class="progress" aria-hidden="true">
+      <span id="dot1"></span><span id="dot2"></span><span id="dot3"></span>
+    </div>
+    <p class="step-rank" id="stepRank">第1希望　1 / 3</p>
+    <h2 id="stepTitle" style="margin:0 0 12px;font-size:22px">この作品を選んだ理由を書いてください</h2>
+    <article class="step-card" id="stepWork"></article>
+    <div class="field">
+      <label for="stepComment">コメント（必須）</label>
+      <textarea id="stepComment" required minlength="10" placeholder="例）誰かのために作った気持ちが伝わる。夏野菜の使い方も工夫されている。"></textarea>
+    </div>
+    <p class="char" id="charCount">0字　・　10字以上</p>
+    <p class="warn" id="stepErr"></p>
+    <div class="row">
+      <button class="btn ghost" type="button" id="stepBack">戻る</button>
+      <button class="btn" type="button" id="stepNext">次の作品へ</button>
+    </div>
+  </div>
+</section>
+
+<section id="thanks" class="thanks hidden">
+  <h1>ありがとうございました</h1>
+  <p id="thanksBody"></p>
+</section>
+
+<script src="config.js"></script>
+<script src="orgs.js"></script>
+<script src="works.js"></script>
+<script>
+(function(){
+  const cfg = window.SHOKUIKU_CONFIG || {};
+  const orgs = window.ORGS || [];
+  const works = window.WORKS || [];
+  const picks = {1:null, 2:null, 3:null};
+  const comments = {1:"", 2:"", 3:""};
+  let currentOrg = null;
+  let commentRank = 1;
+  const MIN_COMMENT = 10;
+
+  const $ = id => document.getElementById(id);
+  const sample = !!(window.WORKS_META && window.WORKS_META.sample) || !cfg.formAction;
+  if (sample) $("sampleBanner").classList.remove("hidden");
+
+  $("deadlineNote").textContent = cfg.deadlineNote || "";
+
+  $("enterBtn").addEventListener("click", enter);
+  $("code").addEventListener("keydown", e => { if (e.key === "Enter") enter(); });
+
+  function enter(){
+    const raw = $("code").value.trim().toUpperCase();
+    const org = orgs.find(o => o.code.toUpperCase() === raw);
+    if (!org){
+      $("codeErr").textContent = "コードが見つかりません。メール／LINEに書いたコードをご確認ください。";
+      return;
+    }
+    currentOrg = org;
+    $("codeErr").textContent = "";
+    $("gate").classList.add("hidden");
+    $("app").classList.remove("hidden");
+    $("orgPill").textContent = org.name;
+    render(works);
+    history.replaceState(null, "", "#review");
+  }
+
+  $("q").addEventListener("input", () => {
+    const q = $("q").value.trim();
+    const list = !q ? works : works.filter(w =>
+      [w.id, w.menu, w.theme, w.eater, w.ingenuity].join(" ").includes(q)
+    );
+    render(list);
+  });
+
+  function render(list){
+    $("count").textContent = list.length + " / " + works.length + "作品";
+    $("grid").innerHTML = list.map(cardHTML).join("");
+    $("grid").querySelectorAll("[data-pick]").forEach(btn => {
+      btn.addEventListener("click", () => setPick(+btn.dataset.rank, btn.dataset.pick));
+    });
+    syncSlots();
+  }
+
+  function cardHTML(w){
+    const rank = rankOf(w.id);
+    return `<article class="card ${rank ? "chosen":""}" data-id="${w.id}">
+      <div class="plate" style="background:${w.hue}22">
+        <span class="wid">${w.id}</span>
+        ${w.image ? `<img src="${esc(w.image)}" alt="" style="width:100%;height:100%;object-fit:cover">` : `<span aria-hidden="true">${w.plate || "🍽️"}</span>`}
+      </div>
+      <div class="card-body">
+        <h2>${esc(w.menu)}</h2>
+        <p class="meta"><b>テーマ</b> ${esc(w.theme)}</p>
+        <p class="meta"><b>食べてくれる人</b> ${esc(w.eater)}</p>
+        <p class="meta"><b>工夫</b> ${esc(w.ingenuity)}</p>
+        <div class="pick">
+          ${[1,2,3].map(n => `<button type="button" data-pick="${w.id}" data-rank="${n}" class="${rank===n?"on":""}">第${n}</button>`).join("")}
+        </div>
+      </div>
+    </article>`;
+  }
+
+  function rankOf(id){
+    if (picks[1]===id) return 1;
+    if (picks[2]===id) return 2;
+    if (picks[3]===id) return 3;
+    return 0;
+  }
+
+  function setPick(rank, id){
+    if (picks[rank] === id){
+      picks[rank] = null;
+      comments[rank] = "";
+    } else {
+      [1,2,3].forEach(n => {
+        if (picks[n]===id){ picks[n]=null; comments[n]=""; }
+      });
+      if (picks[rank] !== id) comments[rank] = "";
+      picks[rank] = id;
+    }
+    render(filtered());
+  }
+
+  function filtered(){
+    const q = $("q").value.trim();
+    if (!q) return works;
+    return works.filter(w => [w.id, w.menu, w.theme, w.eater, w.ingenuity].join(" ").includes(q));
+  }
+
+  function workById(id){ return works.find(w => w.id === id); }
+
+  function syncSlots(){
+    [1,2,3].forEach(n => {
+      const el = $("slot"+n);
+      const w = workById(picks[n]);
+      el.querySelector("strong").textContent = w ? (w.id + " " + w.menu) : "未選択";
+    });
+    $("sendBtn").disabled = !(picks[1] && picks[2] && picks[3]);
+  }
+
+  $("sendBtn").addEventListener("click", () => {
+    commentRank = 1;
+    $("app").classList.add("hidden");
+    $("commentStep").classList.remove("hidden");
+    showCommentStep();
+    history.replaceState(null, "", "#comment");
+  });
+
+  $("stepComment").addEventListener("input", () => {
+    comments[commentRank] = $("stepComment").value;
+    $("charCount").textContent = $("stepComment").value.trim().length + "字　・　" + MIN_COMMENT + "字以上";
+    $("stepErr").textContent = "";
+  });
+
+  $("stepBack").addEventListener("click", () => {
+    comments[commentRank] = $("stepComment").value;
+    if (commentRank === 1){
+      $("commentStep").classList.add("hidden");
+      $("app").classList.remove("hidden");
+      history.replaceState(null, "", "#review");
+      return;
+    }
+    commentRank -= 1;
+    showCommentStep();
+  });
+
+  $("stepNext").addEventListener("click", () => {
+    const text = $("stepComment").value.trim();
+    if (text.length < MIN_COMMENT){
+      $("stepErr").textContent = MIN_COMMENT + "字以上で、この作品を選んだ理由を書いてください。";
+      $("stepComment").focus();
+      return;
+    }
+    comments[commentRank] = $("stepComment").value;
+    if (commentRank < 3){
+      commentRank += 1;
+      showCommentStep();
+      return;
+    }
+    submitVote();
+  });
+
+  function showCommentStep(){
+    const w = workById(picks[commentRank]);
+    $("stepRank").textContent = "第" + commentRank + "希望　" + commentRank + " / 3";
+    [1,2,3].forEach(n => $("dot"+n).classList.toggle("on", n <= commentRank));
+    $("stepWork").innerHTML = `
+      <div class="plate" style="background:${w.hue}22">
+        <span class="wid">${w.id}</span>
+        ${w.image ? `<img src="${esc(w.image)}" alt="" style="width:100%;height:100%;object-fit:cover">` : `<span aria-hidden="true">${w.plate || "🍽️"}</span>`}
+      </div>
+      <div class="card-body">
+        <h2>${esc(w.menu)}</h2>
+        <p class="meta"><b>テーマ</b> ${esc(w.theme)}</p>
+        <p class="meta"><b>食べてくれる人</b> ${esc(w.eater)}</p>
+        <p class="meta"><b>工夫</b> ${esc(w.ingenuity)}</p>
+      </div>`;
+    $("stepComment").value = comments[commentRank] || "";
+    $("charCount").textContent = $("stepComment").value.trim().length + "字　・　" + MIN_COMMENT + "字以上";
+    $("stepErr").textContent = "";
+    $("stepNext").textContent = commentRank === 3 ? "3件のコメントを送信する" : "次の作品へ";
+    $("stepBack").textContent = commentRank === 1 ? "作品一覧へ戻る" : "前の作品へ";
+    $("stepComment").focus();
+    window.scrollTo(0, 0);
+  }
+
+  function submitVote(){
+    const payload = {
+      orgName: currentOrg.name,
+      orgCode: currentOrg.code,
+      first: picks[1],
+      comment1: comments[1].trim(),
+      second: picks[2],
+      comment2: comments[2].trim(),
+      third: picks[3],
+      comment3: comments[3].trim()
+    };
+    if (cfg.formAction && cfg.entries && cfg.entries.orgName){
+      const form = document.createElement("form");
+      form.action = cfg.formAction;
+      form.method = "POST";
+      form.target = "gform";
+      Object.keys(payload).forEach(k => {
+        if (!cfg.entries[k]) return;
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = cfg.entries[k];
+        input.value = payload[k];
+        form.appendChild(input);
+      });
+      let iframe = document.getElementById("gform");
+      if (!iframe){
+        iframe = document.createElement("iframe");
+        iframe.name = "gform";
+        iframe.id = "gform";
+        iframe.className = "hidden";
+        document.body.appendChild(iframe);
+      }
+      document.body.appendChild(form);
+      form.submit();
+      form.remove();
+    } else {
+      localStorage.setItem("shokuiku-vote-demo", JSON.stringify({at: new Date().toISOString(), ...payload}));
+    }
+    $("commentStep").classList.add("hidden");
+    $("thanks").classList.remove("hidden");
+    $("thanksBody").innerHTML = sample
+      ? `${esc(currentOrg.name)} の見本投票（コメント3件）を、このブラウザに保存しました。<br>本番接続後は、事務局のシートに届きます。`
+      : `${esc(currentOrg.name)} の第1希望 ${esc(picks[1])} を受け付けました。<br>重複がある場合は、事務局からご連絡します。`;
+  }
+
+  function esc(s){
+    return String(s||"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+  }
+})();
+</script>
+</body>
+</html>
