@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex,nofollow">
+<meta name="robots" content="noindex,nofollow,noarchive,noimageindex">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' blob: data:; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>審査ページ｜食育推進コンテスト2026（後援団体専用）</title>
 <meta name="description" content="麻生区PTA協議会 食育推進コンテストの後援団体向け審査ページ。外部公開ではありません。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,12 +18,10 @@
   --nori:#2A2521;
   --nori-soft:#5C534C;
   --paper:#F6EFE3;
-  --card:#FFFdf7;
+  --card:#FFFDF7;
   --line:#E4D6C3;
   --shiso:#3F6B4F;
   --yuzu:#E9A820;
-  --slot:#F3E6D4;
-  --white:#fff;
   --shadow:0 12px 28px -18px rgba(42,37,33,.45);
   --font-d:"Zen Maru Gothic",sans-serif;
   --font-t:"Zen Kaku Gothic New",sans-serif;
@@ -29,28 +29,24 @@
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
-  font-family:var(--font-t);
-  color:var(--nori);
+  font-family:var(--font-t);color:var(--nori);
   background:
     radial-gradient(circle at 8% 12%, rgba(196,69,45,.07) 0 40px, transparent 41px),
     radial-gradient(circle at 92% 6%, rgba(63,107,79,.08) 0 36px, transparent 37px),
     var(--paper);
-  line-height:1.7;
-  min-height:100dvh;
+  line-height:1.7;min-height:100dvh;
 }
+body.lock{overflow:hidden}
 h1,h2,h3,button,.brand{font-family:var(--font-d)}
 button{cursor:pointer;font:inherit}
 .wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+.hidden{display:none !important}
 
-/* gate */
-.gate{
-  min-height:100dvh;display:flex;align-items:center;justify-content:center;
-  padding:32px 16px;
-}
+/* ゲート */
+.gate{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:32px 16px}
 .gate-card{
-  width:min(520px,100%);background:var(--card);border-radius:28px;
-  padding:36px 28px 28px;box-shadow:var(--shadow);
-  border:1px solid var(--line);position:relative;overflow:hidden;
+  width:min(520px,100%);background:var(--card);border-radius:28px;padding:36px 28px 28px;
+  box-shadow:var(--shadow);border:1px solid var(--line);position:relative;overflow:hidden;
 }
 .gate-card:before{
   content:"";position:absolute;inset:0 auto auto 0;width:100%;height:10px;
@@ -58,438 +54,678 @@ button{cursor:pointer;font:inherit}
 }
 .stamp{
   display:inline-block;border:3px solid var(--tomato);color:var(--tomato);
-  font-family:var(--font-d);font-weight:900;letter-spacing:.12em;
-  padding:4px 10px;transform:rotate(-6deg);margin-bottom:14px;
+  font-family:var(--font-d);font-weight:900;letter-spacing:.12em;padding:4px 10px;transform:rotate(-6deg);margin-bottom:14px;
 }
 .gate h1{font-size:clamp(22px,5vw,30px);margin:8px 0 6px;line-height:1.4}
 .gate .lead{color:var(--nori-soft);margin:0 0 22px}
 .field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
-.field label{font-weight:700;font-size:13px}
-.field input{
-  border:2px solid var(--line);border-radius:12px;padding:12px 14px;
-  font-size:16px;background:#fff;letter-spacing:.08em;
-}
+.field label{font-weight:700;font-size:14px}
+.field input{border:2px solid var(--line);border-radius:12px;padding:12px 14px;font-size:18px;background:#fff;letter-spacing:.08em}
 .field input:focus{outline:3px solid rgba(196,69,45,.25);border-color:var(--tomato)}
 .btn{
-  display:inline-flex;align-items:center;justify-content:center;
-  background:var(--tomato);color:#fff;border:0;border-radius:999px;
-  font-weight:900;padding:13px 22px;width:100%;font-size:16px;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--tomato);color:#fff;border:0;border-radius:999px;
+  font-weight:900;padding:13px 22px;width:100%;font-size:16px;min-height:48px;text-decoration:none;
 }
-.btn:disabled{opacity:.45}
+.btn:disabled{opacity:.45;cursor:default}
 .btn.ghost{background:transparent;color:var(--nori);border:2px solid var(--line)}
-.warn{color:var(--tomato-deep);font-size:13px;min-height:1.4em;margin:4px 0 10px}
+.warn{color:var(--tomato-deep);font-size:14px;min-height:1.4em;margin:4px 0 10px}
 .fine{font-size:12px;color:var(--nori-soft);margin-top:16px}
+.spin{width:16px;height:16px;border:3px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
 
-/* app chrome */
-.app-bar{
-  position:sticky;top:0;z-index:20;background:rgba(246,239,227,.94);
-  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
-}
-.app-bar .inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0}
+/* ヘッダー */
+.app-bar{position:sticky;top:0;z-index:20;background:rgba(246,239,227,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.app-bar .inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px}
 .brand{font-weight:900;font-size:14px}
 .brand small{display:block;font-weight:500;color:var(--nori-soft);font-size:11px}
-.org-pill{
-  background:#fff;border:1px solid var(--line);border-radius:999px;
-  padding:6px 12px;font-size:12px;font-weight:700;white-space:nowrap;
-}
+.org-pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;max-width:50vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sample-banner{background:var(--tomato);color:#fff;text-align:center;font-family:var(--font-d);font-weight:900;padding:8px 12px;font-size:13px}
+.note{background:#fff;border-left:6px solid var(--yuzu);padding:12px 14px;border-radius:0 12px 12px 0;margin:18px 0 12px;font-size:14px}
+.note p{margin:0}
+.note p+p{margin-top:6px}
+.sent-note{background:#EAF2EC;border-left-color:var(--shiso)}
+.linkish{border:0;background:none;padding:0;color:var(--tomato-deep);text-decoration:underline;font-size:13px;font-family:var(--font-t)}
 
-.note{
-  background:#fff;border-left:6px solid var(--yuzu);padding:12px 14px;
-  border-radius:0 12px 12px 0;margin:18px 0;font-size:14px;
-}
-.sample-banner{
-  background:var(--tomato);color:#fff;text-align:center;
-  font-family:var(--font-d);font-weight:900;padding:8px 12px;font-size:13px;
-}
-
-.toolbar{display:flex;gap:10px;align-items:center;margin:8px 0 16px}
-.toolbar input{
-  flex:1;border:2px solid var(--line);border-radius:999px;padding:10px 16px;
-  font-size:15px;background:#fff;
-}
+/* ツールバー */
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 16px}
+.toolbar input{flex:1 1 220px;min-width:0;border:2px solid var(--line);border-radius:999px;padding:10px 16px;font-size:16px;background:#fff}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:2px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;color:var(--nori-soft)}
+.chip[aria-pressed="true"]{background:var(--nori);border-color:var(--nori);color:#fff}
 .count{font-size:13px;color:var(--nori-soft);white-space:nowrap}
 
-.grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-  gap:16px;padding-bottom:180px;
-}
+/* 作品カード */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;padding-bottom:200px}
+@media (min-width:640px){.grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}}
 .card{
-  background:var(--card);border:1px solid var(--line);border-radius:22px;
-  overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;
+  background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;cursor:pointer;position:relative;text-align:left;padding:0;color:inherit;
 }
-.plate{
-  height:150px;display:flex;align-items:center;justify-content:center;
-  font-size:64px;position:relative;
-}
-.plate .wid{
-  position:absolute;top:10px;left:10px;background:#fff;border-radius:999px;
-  font-size:12px;font-weight:900;padding:3px 9px;font-family:var(--font-d);
-}
-.card-body{padding:14px 14px 12px;display:flex;flex-direction:column;gap:6px;flex:1}
-.card h2{font-size:18px;margin:0;line-height:1.35}
-.meta{font-size:13px;color:var(--nori-soft)}
-.meta b{color:var(--nori);font-weight:700}
-.pick{
-  margin-top:auto;display:flex;gap:6px;padding-top:8px;
-}
-.pick button{
-  flex:1;border:2px solid var(--line);background:#fff;border-radius:10px;
-  padding:8px 0;font-size:12px;font-weight:900;color:var(--nori-soft);
-}
-.pick button.on{
-  background:var(--tomato);border-color:var(--tomato);color:#fff;
-}
+.card:focus-visible{outline:3px solid var(--tomato)}
 .card.chosen{outline:3px solid var(--tomato)}
+.photo{position:relative;background:#EFE6D8;overflow:hidden}
+.card .photo{aspect-ratio:4/3}
+.photo img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .25s}
+.photo img.on{opacity:1}
+.wm{
+  position:absolute;right:8px;bottom:6px;font-size:10px;font-weight:700;color:rgba(255,255,255,.9);
+  text-shadow:0 0 3px rgba(0,0,0,.6);pointer-events:none;max-width:90%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.wid{position:absolute;top:8px;left:8px;background:#fff;border-radius:999px;font-size:12px;font-weight:900;padding:2px 9px;font-family:var(--font-d)}
+.rank-badge{position:absolute;top:8px;right:8px;background:var(--tomato);color:#fff;border-radius:999px;font-size:12px;font-weight:900;padding:2px 9px;font-family:var(--font-d)}
+.card-body{padding:10px 12px 12px;display:flex;flex-direction:column;gap:2px;flex:1}
+.card h2{font-size:15px;margin:0;line-height:1.4}
+.card .theme{font-size:12px;color:var(--nori-soft);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.star{
+  display:block;width:40px;height:40px;border-radius:50%;border:0;padding:0;
+  background:rgba(255,255,255,.95);font-size:20px;line-height:40px;color:#B9A993;box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+.star[aria-pressed="true"]{color:var(--yuzu)}
+.card .star-wrap{position:absolute;right:8px;top:8px}
+.card .rank-badge + .star-wrap{top:40px}
+.empty{grid-column:1/-1;text-align:center;color:var(--nori-soft);padding:40px 0}
 
-/* tray */
+/* 下部トレイ */
 .tray{
-  position:fixed;left:0;right:0;bottom:0;z-index:30;
-  background:#2A2521;color:#fff;padding:12px 16px calc(12px + env(safe-area-inset-bottom));
-  box-shadow:0 -10px 30px rgba(0,0,0,.25);
+  position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--nori);color:#fff;
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -10px 30px rgba(0,0,0,.25);
 }
-.tray .inner{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:stretch}
-.slot{
-  background:#3A332E;border-radius:12px;padding:8px 10px;min-height:58px;
-  display:flex;flex-direction:column;justify-content:center;
-}
-.slot em{font-style:normal;font-size:10px;letter-spacing:.08em;color:#E9A820;font-family:var(--font-d);font-weight:900}
-.slot strong{font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tray .send{
-  grid-column:1 / -1;
-  background:var(--tomato);color:#fff;border:0;border-radius:12px;
-  font-weight:900;padding:12px 18px;min-height:44px;
-}
+.tray .inner{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.slot{background:#3A332E;border-radius:12px;padding:6px 8px;min-height:52px;display:flex;flex-direction:column;justify-content:center;border:0;color:#fff;text-align:left}
+.slot em{font-style:normal;font-size:10px;letter-spacing:.08em;color:var(--yuzu);font-family:var(--font-d);font-weight:900}
+.slot strong{font-size:12px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--font-t)}
+.tray .send{grid-column:1/-1;background:var(--tomato);color:#fff;border:0;border-radius:12px;font-weight:900;padding:10px 18px;min-height:46px}
 .tray .send:disabled{opacity:.35}
 
-.step{
-  min-height:100dvh;padding:20px 16px 40px;
+/* 詳細モーダル */
+.modal{position:fixed;inset:0;z-index:50;background:rgba(42,37,33,.6);display:flex;align-items:flex-end;justify-content:center}
+@media (min-width:720px){.modal{align-items:center;padding:24px}}
+.sheet{
+  background:var(--card);width:100%;max-width:720px;max-height:94dvh;overflow:auto;border-radius:22px 22px 0 0;
+  box-shadow:0 -10px 40px rgba(0,0,0,.3);position:relative;
 }
+@media (min-width:720px){.sheet{border-radius:22px}}
+.sheet .photo{min-height:220px;display:flex;align-items:center;justify-content:center;background:#EFE6D8}
+.sheet .photo img{width:100%;height:auto;max-height:62dvh;object-fit:contain}
+.sheet-close{
+  position:absolute;top:10px;right:10px;z-index:3;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.95);
+  font-size:22px;box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+.sheet-body{padding:16px 18px 20px}
+.sheet h2{margin:0 0 4px;font-size:22px;line-height:1.35}
+.sheet .theme-l{margin:0 0 12px;color:var(--shiso);font-weight:700;font-family:var(--font-d)}
+.kv{margin:0 0 10px}
+.kv dt{font-size:12px;font-weight:700;color:var(--nori-soft)}
+.kv dd{margin:0;white-space:pre-wrap}
+.scan-note{font-size:12px;color:var(--nori-soft);margin:4px 0}
+.scan img{width:100%;border:1px solid var(--line);border-radius:8px}
+.act{display:grid;grid-template-columns:1fr;gap:8px;margin-top:14px}
+.ranks{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.ranks button{border:2px solid var(--line);background:#fff;border-radius:12px;min-height:46px;font-weight:900;color:var(--nori-soft);font-size:14px}
+.ranks button[aria-pressed="true"]{background:var(--tomato);border-color:var(--tomato);color:#fff}
+.star-btn{border:2px solid var(--line);background:#fff;border-radius:12px;min-height:46px;font-weight:900;color:var(--nori-soft)}
+.star-btn[aria-pressed="true"]{border-color:var(--yuzu);background:#FFF6DD;color:var(--nori)}
+.nav{display:flex;justify-content:space-between;gap:8px;margin-top:14px}
+.nav button{flex:1;border:0;background:transparent;color:var(--nori-soft);font-weight:700;min-height:44px}
+
+/* コメント */
+.step{min-height:100dvh;padding:20px 16px 40px}
 .step-inner{max-width:560px;margin:0 auto}
-.progress{
-  display:flex;gap:8px;margin:8px 0 18px;
-}
-.progress span{
-  flex:1;height:6px;border-radius:99px;background:var(--line);
-}
+.progress{display:flex;gap:8px;margin:8px 0 18px}
+.progress span{flex:1;height:6px;border-radius:99px;background:var(--line)}
 .progress span.on{background:var(--tomato)}
-.step-rank{
-  font-family:var(--font-d);font-weight:900;color:var(--tomato);
-  letter-spacing:.08em;font-size:13px;margin:0 0 8px;
-}
-.step-card{
-  background:var(--card);border:1px solid var(--line);border-radius:22px;
-  overflow:hidden;box-shadow:var(--shadow);margin-bottom:16px;
-}
-.step-card .plate{height:160px}
-.step-card .card-body{padding:16px}
-.step textarea{
-  width:100%;min-height:140px;border:2px solid var(--line);border-radius:16px;
-  padding:14px;font:inherit;background:#fff;resize:vertical;
-}
+.step-rank{font-family:var(--font-d);font-weight:900;color:var(--tomato);letter-spacing:.08em;font-size:13px;margin:0 0 8px}
+.step-card{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:16px}
+.step-card .photo{aspect-ratio:4/3}
+.step-card .card-body{padding:14px 16px}
+.step-card h2{margin:0;font-size:18px}
+.step textarea{width:100%;min-height:140px;border:2px solid var(--line);border-radius:16px;padding:14px;font:inherit;font-size:16px;background:#fff;resize:vertical}
 .step textarea:focus{outline:3px solid rgba(196,69,45,.25);border-color:var(--tomato)}
 .char{font-size:12px;color:var(--nori-soft);text-align:right;margin:4px 0 14px}
 .row{display:flex;gap:8px}
 .row .btn{width:auto;flex:1}
-.hidden{display:none !important}
-.thanks{text-align:center;padding:80px 20px}
-.thanks h1{font-size:28px}
+
+/* 完了・エラー */
+.done{max-width:560px;margin:0 auto;padding:48px 16px}
+.done h1{font-size:26px;margin:0 0 8px}
+.receipt{background:#fff;border:2px dashed var(--shiso);border-radius:16px;padding:14px 16px;margin:16px 0;font-size:14px}
+.receipt b{font-size:20px;font-family:var(--font-d)}
+.copy-list{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 16px;font-size:14px}
+.copy-list h3{font-size:14px;margin:10px 0 2px}
+.copy-list p{margin:0;white-space:pre-wrap}
+.err-box{background:#FCEDEA;border:2px solid var(--tomato);border-radius:16px;padding:14px 16px;margin:16px 0}
+.stack{display:grid;gap:8px;margin-top:14px}
 </style>
 </head>
 <body>
-<div id="sampleBanner" class="sample-banner hidden">見本データです。本番の応募作品に差し替えるまで、投票は事務局へ送られません。</div>
+<div id="sampleBanner" class="sample-banner hidden">接続前の確認版です。送信は事務局に届きません。</div>
 
 <section id="gate" class="gate">
   <div class="gate-card">
     <div class="stamp">後援団体専用</div>
     <h1>食育推進コンテスト<br>2026 審査ページ</h1>
-    <p class="lead">お送りした団体コードを入力してください。このページは審査専用です。作品の外部転載・SNS掲載はしないでください。</p>
+    <p class="lead">お送りした団体コードを入力してください。<br>このページは審査専用です。作品の転載・SNS掲載・画面の撮影や共有はご遠慮ください。</p>
     <div class="field">
       <label for="code">団体コード</label>
-      <input id="code" type="text" inputmode="text" autocomplete="off" placeholder="例）EF-7390" aria-describedby="codeErr">
+      <input id="code" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="例）AB-1234-5678" aria-describedby="codeErr">
     </div>
     <p id="codeErr" class="warn" role="alert"></p>
     <button class="btn" id="enterBtn" type="button">作品を見る</button>
-    <p class="fine">主催: 麻生区PTA協議会　／　お問い合わせ: asaokuptashokuiku@gmail.com<br>氏名・学校名・学年は表示しません。<br>運営委員の確認用（見本）: コード <b>EF-7390</b></p>
+    <p class="fine">主催: 麻生区PTA協議会　／　お問い合わせ: <span class="contact"></span><br>応募したお子さんの氏名・学校名・学年は表示しません。</p>
   </div>
 </section>
 
 <div id="app" class="hidden">
   <header class="app-bar">
-    <div class="wrap inner">
+    <div class="inner">
       <div class="brand">食育推進コンテスト 2026<small>後援団体の審査</small></div>
       <div class="org-pill" id="orgPill"></div>
     </div>
   </header>
   <main class="wrap">
-    <p class="note" id="deadlineNote"></p>
+    <div class="note">
+      <p id="howto"></p>
+      <p>作品の転載・SNS掲載・画面の撮影や共有はご遠慮ください（応募時の同意の範囲外です）。</p>
+      <p><button type="button" id="wipe" class="linkish">この端末に保存した選択・コメントを消す</button>（共用の端末で使ったとき）</p>
+    </div>
+    <div class="note sent-note hidden" id="sentNote"></div>
     <div class="toolbar">
-      <input id="q" type="search" placeholder="メニュー名・テーマ・工夫で探す" aria-label="作品を検索">
+      <input id="q" type="search" placeholder="No.・メニュー・テーマで探す" aria-label="作品を検索">
+      <div class="chips" role="group" aria-label="表示する作品">
+        <button type="button" class="chip" data-filter="all" aria-pressed="true">すべて</button>
+        <button type="button" class="chip" data-filter="star" aria-pressed="false">☆候補 <span id="starCount">0</span></button>
+      </div>
       <span class="count" id="count"></span>
     </div>
     <div id="grid" class="grid"></div>
   </main>
   <div class="tray" role="region" aria-label="希望作品">
     <div class="inner">
-      <div class="slot" id="slot1"><em>第1希望</em><strong>未選択</strong></div>
-      <div class="slot" id="slot2"><em>第2希望</em><strong>未選択</strong></div>
-      <div class="slot" id="slot3"><em>第3希望</em><strong>未選択</strong></div>
-      <button class="send" id="sendBtn" type="button" disabled>次へ：作品ごとにコメント</button>
+      <button type="button" class="slot" data-slot="1"><em>第1希望</em><strong>未選択</strong></button>
+      <button type="button" class="slot" data-slot="2"><em>第2希望</em><strong>未選択</strong></button>
+      <button type="button" class="slot" data-slot="3"><em>第3希望</em><strong>未選択</strong></button>
+      <button class="send" id="nextBtn" type="button" disabled>第1〜第3希望を選んでください</button>
+    </div>
+  </div>
+</div>
+
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="sheet" id="sheet">
+    <button class="sheet-close" type="button" id="mClose" aria-label="閉じる">×</button>
+    <div class="photo" id="mPhoto"></div>
+    <div class="sheet-body">
+      <h2 id="mTitle"></h2>
+      <p class="theme-l" id="mTheme"></p>
+      <dl class="kv"><dt>食べてくれる人</dt><dd id="mEater"></dd></dl>
+      <dl class="kv"><dt>工夫した点</dt><dd id="mKufu"></dd></dl>
+      <div id="mScan" class="scan hidden">
+        <p class="scan-note">上の文は応募用紙（手書き・郵送）を事務局で読み取ったものです。原文はこちら：</p>
+      </div>
+      <div class="act">
+        <button type="button" class="star-btn" id="mStar" aria-pressed="false">☆ 候補に入れる</button>
+        <div class="ranks" role="group" aria-label="希望順位">
+          <button type="button" data-rank="1" aria-pressed="false">第1希望</button>
+          <button type="button" data-rank="2" aria-pressed="false">第2希望</button>
+          <button type="button" data-rank="3" aria-pressed="false">第3希望</button>
+        </div>
+      </div>
+      <div class="nav">
+        <button type="button" id="mPrev">← 前の作品</button>
+        <button type="button" id="mNext">次の作品 →</button>
+      </div>
     </div>
   </div>
 </div>
 
 <section id="commentStep" class="step hidden">
   <div class="step-inner">
-    <div class="progress" aria-hidden="true">
-      <span id="dot1"></span><span id="dot2"></span><span id="dot3"></span>
-    </div>
-    <p class="step-rank" id="stepRank">第1希望　1 / 3</p>
-    <h2 id="stepTitle" style="margin:0 0 12px;font-size:22px">この作品を選んだ理由を書いてください</h2>
+    <div class="progress" aria-hidden="true"><span id="dot1"></span><span id="dot2"></span><span id="dot3"></span></div>
+    <p class="step-rank" id="stepRank"></p>
+    <h2 style="margin:0 0 12px;font-size:22px">この作品を選んだ理由を書いてください</h2>
     <article class="step-card" id="stepWork"></article>
     <div class="field">
-      <label for="stepComment">コメント（必須）</label>
-      <textarea id="stepComment" required minlength="10" placeholder="例）誰かのために作った気持ちが伝わる。夏野菜の使い方も工夫されている。"></textarea>
+      <label for="stepComment">コメント（必須・10字以上）</label>
+      <textarea id="stepComment" required placeholder="例）誰かのために作った気持ちが伝わる。夏野菜の使い方も工夫されている。"></textarea>
     </div>
-    <p class="char" id="charCount">0字　・　10字以上</p>
-    <p class="warn" id="stepErr"></p>
+    <p class="char" id="charCount"></p>
+    <p class="warn" id="stepErr" role="alert"></p>
     <div class="row">
-      <button class="btn ghost" type="button" id="stepBack">戻る</button>
-      <button class="btn" type="button" id="stepNext">次の作品へ</button>
+      <button class="btn ghost" type="button" id="stepBack"></button>
+      <button class="btn" type="button" id="stepNext"></button>
     </div>
   </div>
 </section>
 
-<section id="thanks" class="thanks hidden">
-  <h1>ありがとうございました</h1>
-  <p id="thanksBody"></p>
+<section id="result" class="hidden">
+  <div class="done" id="resultBody"></div>
 </section>
 
-<script src="config.js"></script>
-<script src="orgs.js"></script>
-<script src="works.js"></script>
+<script src="config.js?v=20260927b"></script>
+<script src="orgs.js?v=20260927b"></script>
 <script>
 (function(){
+  "use strict";
   const cfg = window.SHOKUIKU_CONFIG || {};
-  const orgs = window.ORGS || [];
-  const works = window.WORKS || [];
-  const picks = {1:null, 2:null, 3:null};
-  const comments = {1:"", 2:"", 3:""};
-  let currentOrg = null;
-  let commentRank = 1;
+  const ORGS = window.ORGS || [];
+  const ITER = window.KDF_ITER || 600000;
   const MIN_COMMENT = 10;
-
   const $ = id => document.getElementById(id);
-  const sample = !!(window.WORKS_META && window.WORKS_META.sample) || !cfg.formAction;
-  if (sample) $("sampleBanner").classList.remove("hidden");
+  const enc = new TextEncoder(), dec = new TextDecoder();
+  const connected = !!cfg.endpoint;
 
-  $("deadlineNote").textContent = cfg.deadlineNote || "";
+  let org = null, token = null, key = null, works = [];
+  let st = {stars: [], picks: {1:null, 2:null, 3:null}, comments: {1:"", 2:"", 3:""}, sent: null};
+  let filter = "all", modalNo = null, commentRank = 1;
+  const thumbs = new Map(), fulls = new Map(), scans = new Map();
 
-  $("enterBtn").addEventListener("click", enter);
-  $("code").addEventListener("keydown", e => { if (e.key === "Enter") enter(); });
+  if (!connected) $("sampleBanner").classList.remove("hidden");
+  document.querySelectorAll(".contact").forEach(el => el.textContent = cfg.contact || "");
 
-  function enter(){
-    const raw = $("code").value.trim().toUpperCase();
-    const org = orgs.find(o => o.code.toUpperCase() === raw);
-    if (!org){
-      $("codeErr").textContent = "コードが見つかりません。メール／LINEに書いたコードをご確認ください。";
+  // ---------- コード入力と復号 ----------
+  function norm(s){
+    return String(s || "").normalize("NFKC").toUpperCase().replace(/[^A-Z0-9]/g, "");
+  }
+  function b64d(s){
+    const bin = atob(s); const u = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+    return u;
+  }
+
+  async function unlock(raw){
+    const code = norm(raw);
+    const o = ORGS.find(x => code.length === 10 && code.startsWith(x.p));
+    if (!o) throw new Error("code");
+    const base = await crypto.subtle.importKey("raw", enc.encode(code), "PBKDF2", false, ["deriveKey"]);
+    const kek = await crypto.subtle.deriveKey(
+      {name: "PBKDF2", salt: b64d(o.s), iterations: ITER, hash: "SHA-256"},
+      base, {name: "AES-GCM", length: 256}, false, ["decrypt"]);
+    let payload;
+    try {
+      payload = await crypto.subtle.decrypt({name: "AES-GCM", iv: b64d(o.i), additionalData: enc.encode("org|" + o.id)}, kek, b64d(o.w));
+    } catch (e) { throw new Error("code"); }
+    const p = JSON.parse(dec.decode(payload));
+    key = await crypto.subtle.importKey("raw", b64d(p.k), "AES-GCM", false, ["decrypt"]);
+    token = p.t; org = o;
+  }
+
+  async function fetchDec(path){
+    const res = await fetch(path);
+    if (!res.ok) throw new Error("fetch " + path);
+    const buf = new Uint8Array(await res.arrayBuffer());
+    return crypto.subtle.decrypt({name: "AES-GCM", iv: buf.slice(0, 12), additionalData: enc.encode(path)}, key, buf.slice(12));
+  }
+
+  async function enter(){
+    const btn = $("enterBtn");
+    if (btn.disabled) return;
+    $("codeErr").textContent = "";
+    if (!window.crypto || !crypto.subtle){
+      $("codeErr").textContent = "このブラウザでは開けません。Safari または Chrome で開き直してください。";
       return;
     }
-    currentOrg = org;
-    $("codeErr").textContent = "";
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spin" aria-hidden="true"></span>開いています…';
+    try {
+      await unlock($("code").value);
+      works = JSON.parse(dec.decode(await fetchDec("d/works.bin")));
+    } catch (e) {
+      btn.disabled = false; btn.textContent = "作品を見る";
+      $("codeErr").textContent = e.message === "code"
+        ? "コードが違うようです。メール／LINEでお送りしたコードをご確認ください（ハイフンは無くても大丈夫です）。"
+        : "作品を読み込めませんでした。通信状態を確かめて、もう一度お試しください。";
+      return;
+    }
+    if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+    load();
     $("gate").classList.add("hidden");
     $("app").classList.remove("hidden");
     $("orgPill").textContent = org.name;
-    render(works);
-    history.replaceState(null, "", "#review");
+    $("howto").textContent = `全${works.length}作品から、貴団体の賞にふさわしい作品を第1〜第3希望まで選び、作品ごとにコメントをお書きください。締切は ${cfg.deadline || "事務局からの案内"} です。気になる作品に ☆ を付けておくと、あとで絞り込めます。選んだ内容はこの端末に保存されます。`;
+    renderSent();
+    render();
   }
+  $("enterBtn").addEventListener("click", enter);
+  $("code").addEventListener("keydown", e => { if (e.key === "Enter") enter(); });
+  const hc = new URLSearchParams(location.hash.slice(1)).get("c");
+  if (hc){ $("code").value = hc; enter(); }
 
-  $("q").addEventListener("input", () => {
-    const q = $("q").value.trim();
-    const list = !q ? works : works.filter(w =>
-      [w.id, w.menu, w.theme, w.eater, w.ingenuity].join(" ").includes(q)
-    );
-    render(list);
+  // ---------- 端末内保存（鍵・トークンは保存しない） ----------
+  const skey = () => "shokuiku26:" + org.id;
+  const KEEP_MS = 60 * 24 * 3600 * 1000;  // 60日たった記録は読まない
+  function load(){
+    try {
+      const s = JSON.parse(localStorage.getItem(skey()) || "null");
+      if (s && s.savedAt && Date.now() - s.savedAt < KEEP_MS) st = Object.assign(st, s);
+      else localStorage.removeItem(skey());
+    } catch (e) {}
+    st.stars = st.stars.filter(n => works.some(w => w.no === n));
+  }
+  function save(){
+    st.savedAt = Date.now();
+    try { localStorage.setItem(skey(), JSON.stringify(st)); } catch (e) {}
+  }
+  $("wipe").addEventListener("click", () => {
+    if (!confirm("この端末に保存した ☆候補・希望・コメント・受付番号を消します。事務局に送った内容は消えません。よろしいですか？")) return;
+    try { localStorage.removeItem(skey()); } catch (e) {}
+    st = {stars: [], picks: {1:null, 2:null, 3:null}, comments: {1:"", 2:"", 3:""}, sent: null};
+    renderSent(); render();
   });
 
-  function render(list){
+  // ---------- 一覧 ----------
+  const workBy = no => works.find(w => w.no === no);
+  const rankOf = no => [1,2,3].find(r => st.picks[r] === no) || 0;
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+
+  function visible(){
+    const q = $("q").value.trim();
+    let list = works;
+    if (filter === "star") list = list.filter(w => st.stars.includes(w.no));
+    if (q){
+      const n = q.normalize("NFKC").replace(/^no\.?\s*/i, "");
+      list = /^\d+$/.test(n)
+        ? list.filter(w => w.no === +n)
+        : list.filter(w => [w.menu, w.theme, w.eater, w.kufu].join(" ").includes(q));
+    }
+    return list;
+  }
+
+  const io = "IntersectionObserver" in window ? new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting){ io.unobserve(en.target); loadThumb(en.target); } });
+  }, {rootMargin: "400px"}) : null;
+
+  // 同時復号数を絞る（古い端末・LINE内ブラウザ向け）
+  let active = 0; const queue = [];
+  function pump(){
+    while (active < 4 && queue.length){
+      const job = queue.shift(); active++;
+      job().finally(() => { active--; pump(); });
+    }
+  }
+  function blobUrl(path, cache, no){
+    if (cache.has(no)) return Promise.resolve(cache.get(no));
+    return new Promise((resolve, reject) => {
+      queue.push(() => fetchDec(path).then(buf => {
+        const url = URL.createObjectURL(new Blob([buf], {type: "image/jpeg"}));
+        cache.set(no, url); resolve(url);
+      }).catch(reject));
+      pump();
+    });
+  }
+  const pad = n => String(n).padStart(3, "0");
+  function loadThumb(box){
+    const no = +box.dataset.no, img = box.querySelector("img");
+    blobUrl(`t/${pad(no)}.bin`, thumbs, no).then(url => { img.src = url; img.onload = () => img.classList.add("on"); }).catch(() => {});
+  }
+
+  function photoHTML(no, cls){
+    return `<div class="photo ${cls || ""}" data-no="${no}"><img alt="No.${no} の料理写真"><span class="wm">${esc(org.name)}・審査用</span></div>`;
+  }
+
+  function render(){
+    const list = visible();
     $("count").textContent = list.length + " / " + works.length + "作品";
-    $("grid").innerHTML = list.map(cardHTML).join("");
-    $("grid").querySelectorAll("[data-pick]").forEach(btn => {
-      btn.addEventListener("click", () => setPick(+btn.dataset.rank, btn.dataset.pick));
-    });
-    syncSlots();
-  }
-
-  function cardHTML(w){
-    const rank = rankOf(w.id);
-    return `<article class="card ${rank ? "chosen":""}" data-id="${w.id}">
-      <div class="plate" style="background:${w.hue}22">
-        <span class="wid">${w.id}</span>
-        ${w.image ? `<img src="${esc(w.image)}" alt="" style="width:100%;height:100%;object-fit:cover">` : `<span aria-hidden="true">${w.plate || "🍽️"}</span>`}
-      </div>
-      <div class="card-body">
-        <h2>${esc(w.menu)}</h2>
-        <p class="meta"><b>テーマ</b> ${esc(w.theme)}</p>
-        <p class="meta"><b>食べてくれる人</b> ${esc(w.eater)}</p>
-        <p class="meta"><b>工夫</b> ${esc(w.ingenuity)}</p>
-        <div class="pick">
-          ${[1,2,3].map(n => `<button type="button" data-pick="${w.id}" data-rank="${n}" class="${rank===n?"on":""}">第${n}</button>`).join("")}
-        </div>
-      </div>
-    </article>`;
-  }
-
-  function rankOf(id){
-    if (picks[1]===id) return 1;
-    if (picks[2]===id) return 2;
-    if (picks[3]===id) return 3;
-    return 0;
-  }
-
-  function setPick(rank, id){
-    if (picks[rank] === id){
-      picks[rank] = null;
-      comments[rank] = "";
-    } else {
-      [1,2,3].forEach(n => {
-        if (picks[n]===id){ picks[n]=null; comments[n]=""; }
-      });
-      if (picks[rank] !== id) comments[rank] = "";
-      picks[rank] = id;
-    }
-    render(filtered());
-  }
-
-  function filtered(){
-    const q = $("q").value.trim();
-    if (!q) return works;
-    return works.filter(w => [w.id, w.menu, w.theme, w.eater, w.ingenuity].join(" ").includes(q));
-  }
-
-  function workById(id){ return works.find(w => w.id === id); }
-
-  function syncSlots(){
-    [1,2,3].forEach(n => {
-      const el = $("slot"+n);
-      const w = workById(picks[n]);
-      el.querySelector("strong").textContent = w ? (w.id + " " + w.menu) : "未選択";
-    });
-    $("sendBtn").disabled = !(picks[1] && picks[2] && picks[3]);
-  }
-
-  $("sendBtn").addEventListener("click", () => {
-    commentRank = 1;
-    $("app").classList.add("hidden");
-    $("commentStep").classList.remove("hidden");
-    showCommentStep();
-    history.replaceState(null, "", "#comment");
-  });
-
-  $("stepComment").addEventListener("input", () => {
-    comments[commentRank] = $("stepComment").value;
-    $("charCount").textContent = $("stepComment").value.trim().length + "字　・　" + MIN_COMMENT + "字以上";
-    $("stepErr").textContent = "";
-  });
-
-  $("stepBack").addEventListener("click", () => {
-    comments[commentRank] = $("stepComment").value;
-    if (commentRank === 1){
-      $("commentStep").classList.add("hidden");
-      $("app").classList.remove("hidden");
-      history.replaceState(null, "", "#review");
-      return;
-    }
-    commentRank -= 1;
-    showCommentStep();
-  });
-
-  $("stepNext").addEventListener("click", () => {
-    const text = $("stepComment").value.trim();
-    if (text.length < MIN_COMMENT){
-      $("stepErr").textContent = MIN_COMMENT + "字以上で、この作品を選んだ理由を書いてください。";
-      $("stepComment").focus();
-      return;
-    }
-    comments[commentRank] = $("stepComment").value;
-    if (commentRank < 3){
-      commentRank += 1;
-      showCommentStep();
-      return;
-    }
-    submitVote();
-  });
-
-  function showCommentStep(){
-    const w = workById(picks[commentRank]);
-    $("stepRank").textContent = "第" + commentRank + "希望　" + commentRank + " / 3";
-    [1,2,3].forEach(n => $("dot"+n).classList.toggle("on", n <= commentRank));
-    $("stepWork").innerHTML = `
-      <div class="plate" style="background:${w.hue}22">
-        <span class="wid">${w.id}</span>
-        ${w.image ? `<img src="${esc(w.image)}" alt="" style="width:100%;height:100%;object-fit:cover">` : `<span aria-hidden="true">${w.plate || "🍽️"}</span>`}
-      </div>
-      <div class="card-body">
-        <h2>${esc(w.menu)}</h2>
-        <p class="meta"><b>テーマ</b> ${esc(w.theme)}</p>
-        <p class="meta"><b>食べてくれる人</b> ${esc(w.eater)}</p>
-        <p class="meta"><b>工夫</b> ${esc(w.ingenuity)}</p>
+    $("starCount").textContent = st.stars.length;
+    const grid = $("grid");
+    grid.innerHTML = list.length ? list.map(w => {
+      const r = rankOf(w.no), s = st.stars.includes(w.no);
+      return `<div class="card ${r ? "chosen" : ""}" role="button" tabindex="0" data-open="${w.no}" aria-label="No.${w.no} ${esc(w.menu)} を開く">
+        ${photoHTML(w.no)}
+        <span class="wid">No.${w.no}</span>
+        ${r ? `<span class="rank-badge">第${r}希望</span>` : ""}
+        <span class="star-wrap"><button type="button" class="star" data-star="${w.no}" aria-pressed="${s}" aria-label="No.${w.no} を候補に${s ? "入れています" : "入れる"}">${s ? "★" : "☆"}</button></span>
+        <div class="card-body"><h2>${esc(w.menu)}</h2><p class="theme">${esc(w.theme)}</p></div>
       </div>`;
-    $("stepComment").value = comments[commentRank] || "";
-    $("charCount").textContent = $("stepComment").value.trim().length + "字　・　" + MIN_COMMENT + "字以上";
-    $("stepErr").textContent = "";
-    $("stepNext").textContent = commentRank === 3 ? "3件のコメントを送信する" : "次の作品へ";
-    $("stepBack").textContent = commentRank === 1 ? "作品一覧へ戻る" : "前の作品へ";
-    $("stepComment").focus();
+    }).join("") : `<p class="empty">${filter === "star" ? "☆ を付けた作品はまだありません。" : "見つかりませんでした。"}</p>`;
+    grid.querySelectorAll(".photo").forEach(box => {
+      const no = +box.dataset.no;
+      if (thumbs.has(no)){ const img = box.querySelector("img"); img.src = thumbs.get(no); img.classList.add("on"); }
+      else if (io) io.observe(box); else loadThumb(box);
+    });
+    syncTray();
+  }
+
+  $("grid").addEventListener("click", e => {
+    const star = e.target.closest("[data-star]");
+    if (star){ e.stopPropagation(); toggleStar(+star.dataset.star); return; }
+    const card = e.target.closest("[data-open]");
+    if (card) openModal(+card.dataset.open);
+  });
+  $("grid").addEventListener("keydown", e => {
+    const card = e.target.closest("[data-open]");
+    if (card && (e.key === "Enter" || e.key === " ") && e.target === card){ e.preventDefault(); openModal(+card.dataset.open); }
+  });
+  $("q").addEventListener("input", render);
+  document.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
+    filter = c.dataset.filter;
+    document.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", x === c));
+    render();
+  }));
+
+  function toggleStar(no){
+    const i = st.stars.indexOf(no);
+    if (i >= 0) st.stars.splice(i, 1); else st.stars.push(no);
+    save(); render();
+    if (modalNo === no) fillModal();
+  }
+
+  function setPick(rank, no){
+    const from = rankOf(no);
+    if (from === rank){
+      st.picks[rank] = null; st.comments[rank] = "";
+    } else if (from){
+      // 別の順位にある作品を動かすときは、作品とコメントを入れ替える（消さない）
+      [st.picks[from], st.picks[rank]] = [st.picks[rank], st.picks[from]];
+      [st.comments[from], st.comments[rank]] = [st.comments[rank], st.comments[from]];
+    } else {
+      if (st.picks[rank] && !confirm(`第${rank}希望の No.${st.picks[rank]} を、No.${no} に差し替えます。よろしいですか？`)) return;
+      st.picks[rank] = no; st.comments[rank] = "";
+      if (!st.stars.includes(no)) st.stars.push(no);
+    }
+    save(); render();
+    if (modalNo !== null) fillModal();
+  }
+
+  function syncTray(){
+    [1,2,3].forEach(r => {
+      const w = workBy(st.picks[r]);
+      document.querySelector(`[data-slot="${r}"] strong`).textContent = w ? `No.${w.no} ${w.menu}` : "未選択";
+    });
+    const ready = [1,2,3].every(r => st.picks[r]);
+    $("nextBtn").disabled = !ready;
+    $("nextBtn").textContent = ready ? "次へ：作品ごとにコメントを書く" : "第1〜第3希望を選んでください";
+  }
+  document.querySelectorAll("[data-slot]").forEach(s => s.addEventListener("click", () => {
+    const no = st.picks[+s.dataset.slot]; if (no) openModal(no);
+  }));
+
+  // ---------- 詳細 ----------
+  let lastFocus = null, navList = [];
+  function openModal(no){
+    lastFocus = document.activeElement;
+    // 開いた時点の並びで前後移動する（☆を外して一覧から消えても迷子にしない）
+    navList = visible().map(w => w.no);
+    if (!navList.includes(no)) navList = works.map(w => w.no);
+    modalNo = no; fillModal();
+    $("modal").classList.remove("hidden"); document.body.classList.add("lock");
+    $("mClose").focus({preventScroll: true}); $("sheet").scrollTop = 0;
+  }
+  function closeModal(){
+    $("modal").classList.add("hidden"); document.body.classList.remove("lock"); modalNo = null;
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  function fillModal(){
+    const w = workBy(modalNo);
+    $("mPhoto").innerHTML = `<img alt="No.${w.no} の料理写真"><span class="wid">No.${w.no}</span><span class="wm">${esc(org.name)}・審査用</span>`;
+    const img = $("mPhoto").querySelector("img");
+    if (thumbs.has(w.no)){ img.src = thumbs.get(w.no); img.classList.add("on"); }
+    blobUrl(`f/${pad(w.no)}.bin`, fulls, w.no).then(url => {
+      if (modalNo === w.no){ img.src = url; img.classList.add("on"); }
+      // 大きい写真は直近12枚だけ持つ（古い端末のメモリ対策）
+      while (fulls.size > 12){
+        const [k, u] = fulls.entries().next().value;
+        if (k === modalNo) break;
+        URL.revokeObjectURL(u); fulls.delete(k);
+      }
+    }).catch(() => {});
+    $("mTitle").textContent = w.menu;
+    $("mTheme").textContent = "「" + w.theme + "」";
+    $("mEater").textContent = w.eater;
+    $("mKufu").textContent = w.kufu;
+    const scan = $("mScan");
+    scan.querySelectorAll("img").forEach(i => i.remove());
+    scan.classList.toggle("hidden", !w.kufuScan);
+    if (w.kufuScan){
+      const si = document.createElement("img"); si.alt = "No." + w.no + " 工夫した点の原文";
+      scan.appendChild(si);
+      blobUrl(`k/${pad(w.no)}.bin`, scans, w.no).then(url => { si.src = url; }).catch(() => {});
+    }
+    const s = st.stars.includes(w.no);
+    $("mStar").setAttribute("aria-pressed", s);
+    $("mStar").textContent = s ? "★ 候補に入れています（押すと外す）" : "☆ 候補に入れる";
+    const r = rankOf(w.no);
+    document.querySelectorAll("#modal [data-rank]").forEach(b => {
+      const n = +b.dataset.rank, on = r === n;
+      b.setAttribute("aria-pressed", on);
+      b.textContent = on ? `第${n}希望 ✓` : `第${n}希望`;
+    });
+    const i = navList.indexOf(w.no), last = navList.length - 1;
+    $("mPrev").disabled = i <= 0; $("mNext").disabled = i < 0 || i >= last;
+    $("mPrev").style.visibility = i <= 0 ? "hidden" : "visible";
+    $("mNext").style.visibility = (i < 0 || i >= last) ? "hidden" : "visible";
+  }
+  function step(d){
+    const i = navList.indexOf(modalNo);
+    if (i >= 0 && navList[i + d] !== undefined){ modalNo = navList[i + d]; fillModal(); $("sheet").scrollTop = 0; }
+  }
+  $("mClose").addEventListener("click", closeModal);
+  $("modal").addEventListener("click", e => { if (e.target === $("modal")) closeModal(); });
+  document.addEventListener("keydown", e => {
+    if ($("modal").classList.contains("hidden")) return;
+    if (e.key === "Escape") closeModal();
+    if (e.key === "ArrowLeft") step(-1);
+    if (e.key === "ArrowRight") step(1);
+  });
+  $("mPrev").addEventListener("click", () => step(-1));
+  $("mNext").addEventListener("click", () => step(1));
+  $("mStar").addEventListener("click", () => toggleStar(modalNo));
+  document.querySelectorAll("#modal [data-rank]").forEach(b => b.addEventListener("click", () => setPick(+b.dataset.rank, modalNo)));
+
+  // ---------- コメント ----------
+  function show(id){
+    ["app", "commentStep", "result"].forEach(x => $(x).classList.toggle("hidden", x !== id));
     window.scrollTo(0, 0);
   }
+  $("nextBtn").addEventListener("click", () => { commentRank = 1; show("commentStep"); showStep(); });
 
-  function submitVote(){
-    const payload = {
-      orgName: currentOrg.name,
-      orgCode: currentOrg.code,
-      first: picks[1],
-      comment1: comments[1].trim(),
-      second: picks[2],
-      comment2: comments[2].trim(),
-      third: picks[3],
-      comment3: comments[3].trim()
-    };
-    if (cfg.formAction && cfg.entries && cfg.entries.orgName){
-      const form = document.createElement("form");
-      form.action = cfg.formAction;
-      form.method = "POST";
-      form.target = "gform";
-      Object.keys(payload).forEach(k => {
-        if (!cfg.entries[k]) return;
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = cfg.entries[k];
-        input.value = payload[k];
-        form.appendChild(input);
-      });
-      let iframe = document.getElementById("gform");
-      if (!iframe){
-        iframe = document.createElement("iframe");
-        iframe.name = "gform";
-        iframe.id = "gform";
-        iframe.className = "hidden";
-        document.body.appendChild(iframe);
-      }
-      document.body.appendChild(form);
-      form.submit();
-      form.remove();
-    } else {
-      localStorage.setItem("shokuiku-vote-demo", JSON.stringify({at: new Date().toISOString(), ...payload}));
+  function showStep(){
+    const w = workBy(st.picks[commentRank]);
+    $("stepRank").textContent = `第${commentRank}希望　${commentRank} / 3`;
+    [1,2,3].forEach(n => $("dot" + n).classList.toggle("on", n <= commentRank));
+    $("stepWork").innerHTML = photoHTML(w.no) + `<div class="card-body"><h2>No.${w.no} ${esc(w.menu)}</h2><p class="theme" style="margin:4px 0 0;color:var(--nori-soft)">「${esc(w.theme)}」</p></div>`;
+    const img = $("stepWork").querySelector("img");
+    blobUrl(`t/${pad(w.no)}.bin`, thumbs, w.no).then(url => { img.src = url; img.classList.add("on"); }).catch(() => {});
+    $("stepComment").value = st.comments[commentRank] || "";
+    updChar();
+    $("stepErr").textContent = "";
+    $("stepNext").textContent = commentRank === 3 ? "3件をまとめて送信する" : "次の作品へ";
+    $("stepBack").textContent = commentRank === 1 ? "作品一覧へ戻る" : "前の作品へ";
+  }
+  function updChar(){ $("charCount").textContent = $("stepComment").value.trim().length + "字　・　" + MIN_COMMENT + "字以上"; }
+  $("stepComment").addEventListener("input", () => { st.comments[commentRank] = $("stepComment").value; save(); updChar(); $("stepErr").textContent = ""; });
+  $("stepBack").addEventListener("click", () => {
+    if (commentRank === 1){ show("app"); render(); return; }
+    commentRank--; showStep();
+  });
+  $("stepNext").addEventListener("click", () => {
+    if ($("stepComment").value.trim().length < MIN_COMMENT){
+      $("stepErr").textContent = MIN_COMMENT + "字以上で、この作品を選んだ理由を書いてください。";
+      $("stepComment").focus(); return;
     }
-    $("commentStep").classList.add("hidden");
-    $("thanks").classList.remove("hidden");
-    $("thanksBody").innerHTML = sample
-      ? `${esc(currentOrg.name)} の見本投票（コメント3件）を、このブラウザに保存しました。<br>本番接続後は、事務局のシートに届きます。`
-      : `${esc(currentOrg.name)} の第1希望 ${esc(picks[1])} を受け付けました。<br>重複がある場合は、事務局からご連絡します。`;
+    if (commentRank < 3){ commentRank++; showStep(); return; }
+    submit();
+  });
+
+  // ---------- 送信 ----------
+  function summaryText(){
+    return [1,2,3].map(r => {
+      const w = workBy(st.picks[r]);
+      return `第${r}希望 No.${w.no} ${w.menu}\n${st.comments[r].trim()}`;
+    }).join("\n\n");
+  }
+  function copyListHTML(){
+    return `<div class="copy-list">` + [1,2,3].map(r => {
+      const w = workBy(st.picks[r]);
+      return `<h3>第${r}希望　No.${w.no} ${esc(w.menu)}</h3><p>${esc(st.comments[r].trim())}</p>`;
+    }).join("") + `</div>`;
+  }
+  function mailtoHref(){
+    const subject = `【食育審査】${org.name} 第1〜第3希望`;
+    const body = `麻生区PTA協議会 食育推進コンテスト担当 御中\n\n${org.name} の審査結果をお送りします。\n（審査ページの送信がうまくいかなかったため、メールでお送りします）\n\n${summaryText()}\n`;
+    return `mailto:${cfg.contact}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }
 
-  function esc(s){
-    return String(s||"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+  async function submit(){
+    const btn = $("stepNext");
+    btn.disabled = true; btn.innerHTML = '<span class="spin" aria-hidden="true"></span>送信しています…';
+    const payload = {orgId: org.id, token, picks: [1,2,3].map(r => st.picks[r]), comments: [1,2,3].map(r => st.comments[r].trim())};
+    let res;
+    if (!connected){
+      res = {ok: true, receipt: "確認版（未送信）", at: new Date().toLocaleString("ja-JP"), demo: true};
+    } else {
+      const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), 25000);
+      try {
+        const r = await fetch(cfg.endpoint, {method: "POST", headers: {"Content-Type": "text/plain;charset=utf-8"}, body: JSON.stringify(payload), signal: ctl.signal});
+        res = await r.json();
+      } catch (e) {
+        res = {ok: false, message: "通信が途中で切れたか、時間がかかりすぎました。"};
+      } finally { clearTimeout(timer); }
+    }
+    btn.disabled = false;
+    if (res.ok){
+      st.sent = {receipt: res.receipt, at: res.at, picks: payload.picks, demo: !!res.demo};
+      save(); showDone(res);
+    } else {
+      showError(res.message || "送信できませんでした。");
+    }
+  }
+
+  function showDone(res){
+    $("resultBody").innerHTML = `
+      <h1>${res.demo ? "確認版のため、送信はしていません" : "受け付けました"}</h1>
+      <p>${esc(org.name)} の審査結果${res.demo ? "（確認版）" : "を事務局で受け付けました"}。ありがとうございました。</p>
+      <div class="receipt">受付番号　<b>${esc(res.receipt)}</b><br>受付日時　${esc(res.at)}</div>
+      <p>送った内容の控えです（念のため画面を保存しておくと安心です）。</p>
+      ${copyListHTML()}
+      <p class="fine">内容を変えたいときは、作品一覧から選び直して送り直してください。最後に送った内容を採用し、事務局から確認のご連絡をすることがあります。他団体と第1希望が重なった場合も、事務局からご連絡します。</p>
+      <div class="stack"><button class="btn ghost" type="button" id="backList">作品一覧に戻る</button></div>`;
+    $("backList").addEventListener("click", () => { show("app"); renderSent(); render(); });
+    show("result");
+  }
+
+  function showError(msg){
+    $("resultBody").innerHTML = `
+      <h1>まだ送れていません</h1>
+      <div class="err-box">${esc(msg)}<br>選んだ作品とコメントは、この端末に残っています。</div>
+      <div class="stack">
+        <button class="btn" type="button" id="retry">もう一度送る</button>
+        <a class="btn ghost" id="mailBtn" href="#">メールで送る（内容は入力済み）</a>
+        <button class="btn ghost" type="button" id="backEdit">コメントを見直す</button>
+      </div>
+      <p class="fine">メールの宛先: ${esc(cfg.contact)}</p>
+      ${copyListHTML()}`;
+    $("mailBtn").setAttribute("href", mailtoHref());
+    $("retry").addEventListener("click", () => { commentRank = 3; show("commentStep"); showStep(); submit(); });
+    $("backEdit").addEventListener("click", () => { commentRank = 3; show("commentStep"); showStep(); });
+    show("result");
+  }
+
+  function renderSent(){
+    const el = $("sentNote");
+    if (!st.sent){ el.classList.add("hidden"); return; }
+    el.classList.remove("hidden");
+    el.textContent = st.sent.demo
+      ? "確認版で送信の練習をしました（事務局には届いていません）。"
+      : `送信済みです（受付番号 ${st.sent.receipt}・${st.sent.at}）。変えたいときは選び直して送り直せます。最後に送った内容を採用します。`;
   }
 })();
 </script>

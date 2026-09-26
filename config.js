@@ -1,17 +1,9 @@
-/* GAS で審査フォームを作ったあと、実行ログの値をここに貼る。
-   空のままだと「見本モード」になり、投票は Google に送られない。 */
+/* 審査ページの設定。
+   endpoint が空のあいだは「接続前の確認版」になり、送信は事務局に届かない（このブラウザに保存するだけ）。
+   GAS ウェブアプリをデプロイしたら、その URL（…/exec）を endpoint に貼る。 */
 window.SHOKUIKU_CONFIG = {
   year: 2026,
-  deadlineNote: "各団体の選出期限は 2026年9月末です。第1〜第3希望を選んだあと、作品ごとにコメントを書いてください。重複した場合は事務局からご連絡します。",
-  formAction: "",
-  entries: {
-    orgName: "",
-    orgCode: "",
-    first: "",
-    second: "",
-    third: "",
-    comment1: "",
-    comment2: "",
-    comment3: ""
-  }
+  deadline: "2026年10月11日（日）",
+  contact: "asaokuptashokuiku@gmail.com",
+  endpoint: ""
 };
