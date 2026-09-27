@@ -367,8 +367,8 @@ button{cursor:pointer;font:inherit}
   <div class="done" id="resultBody"></div>
 </section>
 
-<script src="config.js?v=20260927i"></script>
-<script src="orgs.js?v=20260927i"></script>
+<script src="config.js?v=20260927j"></script>
+<script src="orgs.js?v=20260927j"></script>
 <script>
 (function(){
   "use strict";
@@ -393,6 +393,11 @@ button{cursor:pointer;font:inherit}
   function norm(s){
     return String(s || "").normalize("NFKC").toUpperCase().replace(/[^A-Z0-9]/g, "");
   }
+  // 後援団体の共通コード用：大文字小文字とハイフンの有無を区別する。全角・空白・ハイフンに似た記号だけそろえる
+  function strictNorm(s){
+    return String(s || "").normalize("NFKC").replace(/\s+/g, "").replace(/[\u2010-\u2015\u2212\u30fc\uff70]/g, "-");
+  }
+  let codeUsed = "";
   function b64d(s){
     const bin = atob(s); const u = new Uint8Array(bin.length);
     for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
@@ -400,9 +405,10 @@ button{cursor:pointer;font:inherit}
   }
 
   async function unlock(raw){
-    const code = norm(raw);
-    const o = KEYS.find(x => code.length === (x.n || 10) && code.startsWith(x.p));
+    const exact = strictNorm(raw), loose = norm(raw);
+    const o = KEYS.find(x => x.x ? exact.length === x.n : (loose.length === (x.n || 10) && loose.startsWith(x.p)));
     if (!o) throw new Error("code");
+    const code = o.x ? exact : loose;
     const base = await crypto.subtle.importKey("raw", enc.encode(code), "PBKDF2", false, ["deriveKey"]);
     const kek = await crypto.subtle.deriveKey(
       {name: "PBKDF2", salt: b64d(o.s), iterations: ITER, hash: "SHA-256"},
@@ -413,7 +419,7 @@ button{cursor:pointer;font:inherit}
     } catch (e) { throw new Error("code"); }
     const p = JSON.parse(dec.decode(payload));
     key = await crypto.subtle.importKey("raw", b64d(p.k), "AES-GCM", false, ["decrypt"]);
-    token = p.t; group = p.g; defOrg = o.def || null; org = null;
+    token = p.t; group = p.g; defOrg = o.def || null; org = null; codeUsed = code;
   }
 
   async function fetchDec(path){
@@ -445,7 +451,7 @@ button{cursor:pointer;font:inherit}
     }
     if (location.hash) history.replaceState(null, "", location.pathname + location.search);
     // 同じタブで開き直したときは、コード入力と審査者の選択を省く
-    const code = norm($("code").value), prev = getSes();
+    const code = codeUsed, prev = getSes();
     const same = prev && prev.code === code && prev.email;
     setSes({code, email: null, orgId: null});
     const p = same && people().find(x => x.email.toLowerCase() === prev.email.toLowerCase() && x.orgId === prev.orgId);
@@ -522,7 +528,7 @@ button{cursor:pointer;font:inherit}
     const o = ORG_LIST.find(x => x.id === p.orgId && x.g === group);
     if (!o){ showRegister(); return; }
     org = o; who = p;
-    setSes({code: norm($("code").value), email: p.email, orgId: p.orgId});
+    setSes({code: codeUsed, email: p.email, orgId: p.orgId});
     history.replaceState({v: "app"}, "");
     const carried = carry; carry = null;
     if (carried){ st = carried; save(); }
