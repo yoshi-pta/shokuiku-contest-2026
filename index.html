@@ -224,7 +224,7 @@ button{cursor:pointer;font:inherit}
     <p class="lead">ご案内に書かれているコードを入力してください（ご案内のリンクから開いた場合は入力不要です）。<br>このページは審査専用です。作品の転載・SNS掲載・画面の撮影や共有はご遠慮ください。</p>
     <div class="field">
       <label for="code">コード</label>
-      <input id="code" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="例）AB-1234-5678" aria-describedby="codeErr">
+      <input id="code" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="例）123456" aria-describedby="codeErr">
     </div>
     <p id="codeErr" class="warn" role="alert"></p>
     <button class="btn" id="enterBtn" type="button">作品を見る</button>
@@ -367,8 +367,8 @@ button{cursor:pointer;font:inherit}
   <div class="done" id="resultBody"></div>
 </section>
 
-<script src="config.js?v=20260927g"></script>
-<script src="orgs.js?v=20260927g"></script>
+<script src="config.js?v=20260927h"></script>
+<script src="orgs.js?v=20260927h"></script>
 <script>
 (function(){
   "use strict";
@@ -401,7 +401,7 @@ button{cursor:pointer;font:inherit}
 
   async function unlock(raw){
     const code = norm(raw);
-    const o = KEYS.find(x => code.length === 10 && code.startsWith(x.p));
+    const o = KEYS.find(x => code.length === (x.n || 10) && code.startsWith(x.p));
     if (!o) throw new Error("code");
     const base = await crypto.subtle.importKey("raw", enc.encode(code), "PBKDF2", false, ["deriveKey"]);
     const kek = await crypto.subtle.deriveKey(
