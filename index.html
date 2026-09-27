@@ -85,6 +85,8 @@ button{cursor:pointer;font:inherit}
 .note{background:#fff;border-left:6px solid var(--yuzu);padding:12px 14px;border-radius:0 12px 12px 0;margin:18px 0 12px;font-size:14px}
 .note p{margin:0}
 .note p+p{margin-top:6px}
+.flow{margin:8px 0 10px;padding-left:1.4em;display:grid;gap:4px}
+.flow li::marker{font-weight:900;color:var(--tomato)}
 .sent-note{background:#EAF2EC;border-left-color:var(--shiso)}
 .org-l{font-family:var(--font-d);font-weight:900;font-size:clamp(20px,5vw,26px);margin:0 0 8px;line-height:1.4}
 .thanks-l{margin:0 0 16px;padding:12px 14px;background:#FFF6DD;border-radius:12px;font-size:15px}
@@ -221,11 +223,12 @@ button{cursor:pointer;font:inherit}
   <div class="gate-card">
     <div class="stamp">後援団体専用</div>
     <h1>食育推進コンテスト<br>2026 審査ページ</h1>
-    <p class="lead">ご案内に書かれているコードを入力してください（ご案内のリンクから開いた場合は入力不要です）。<br>このページは審査専用です。作品の転載・SNS掲載・画面の撮影や共有はご遠慮ください。</p>
+    <p class="lead">ご案内に書かれているコードを入力してください（ご案内のリンクから開いた場合は入力不要です）。<br>このページは後援団体の審査専用です。お子さんの作品が載っていますので、SNSなどへの転載や、スクリーンショットの撮影・共有はご遠慮ください。</p>
     <div class="field">
       <label for="code">コード</label>
       <input id="code" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ご案内に書かれたコード" aria-describedby="codeErr">
     </div>
+    <p class="fine" style="margin:-6px 0 6px">大文字・小文字とハイフンも、ご案内の通りに入力してください（コピーして貼り付けるのが確実です）。</p>
     <p id="codeErr" class="warn" role="alert"></p>
     <button class="btn" id="enterBtn" type="button">作品を見る</button>
     <p class="fine">主催: 麻生区PTA協議会　／　お問い合わせ: <span class="contact"></span><br>応募したお子さんの氏名・学校名・学年は表示しません。</p>
@@ -243,7 +246,7 @@ button{cursor:pointer;font:inherit}
       <p class="fine" style="margin:14px 0 0">別の方が審査する場合は、下にご登録ください。</p>
     </div>
     <h2 class="reg-h">審査をされる方のご登録</h2>
-    <p class="lead" style="margin:0 0 14px">団体名を選び、お名前とメールアドレスを入れてください。受け付けた審査内容の控えを、このメールアドレスにお送りします。同じ団体で複数の方が審査される場合は、お一人ずつご登録ください。</p>
+    <p class="lead" style="margin:0 0 14px">団体名を選び、お名前とメールアドレスを入れてください。受け付けた審査内容の控えを、このメールアドレスにお送りします。同じ団体で複数の方が審査される場合は、お一人ずつ登録して、それぞれ第1〜第3希望を送ってください。</p>
     <div class="field">
       <label for="rOrgSel">団体名</label>
       <select id="rOrgSel"></select>
@@ -271,9 +274,14 @@ button{cursor:pointer;font:inherit}
   <main class="wrap">
     <div class="note">
       <p id="howto"></p>
-      <p>作品の転載・SNS掲載・画面の撮影や共有はご遠慮ください（応募時の同意の範囲外です）。</p>
+      <ol class="flow">
+        <li><b>作品一覧から、第1〜第3希望を選ぶ</b>（作品を押すと大きな写真と説明が出ます。気になる作品に ☆ を付けると絞り込めます）</li>
+        <li><b>第1〜第3希望の作品それぞれに、選んだ理由を書く</b>（10字以上）</li>
+        <li><b>入力内容を確認して送信</b>（控えがメールで届きます）</li>
+      </ol>
+      <p>お子さんの作品が載っていますので、SNSなどへの転載や、スクリーンショットの撮影・共有はご遠慮ください。</p>
       <p id="who"></p>
-      <p><button type="button" id="switchWho" class="linkish">別の方として審査する</button>　／　<button type="button" id="wipe" class="linkish">この端末に保存した選択・コメントを消す</button>（共用の端末で使ったとき）</p>
+      <p><button type="button" id="switchWho" class="linkish">別の方として審査する</button>　／　<button type="button" id="wipe" class="linkish">この端末に保存した選択と理由を消す</button>（共用の端末で使ったとき）</p>
     </div>
     <div class="note sent-note hidden" id="sentNote"></div>
     <div class="toolbar">
@@ -333,7 +341,7 @@ button{cursor:pointer;font:inherit}
     <h2 style="margin:0 0 12px;font-size:22px">この作品を選んだ理由を書いてください</h2>
     <article class="step-card" id="stepWork"></article>
     <div class="field">
-      <label for="stepComment">コメント（必須・10字以上）</label>
+      <label for="stepComment">選んだ理由（必須・10字以上）</label>
       <textarea id="stepComment" required placeholder="例）誰かのために作った気持ちが伝わる。夏野菜の使い方も工夫されている。"></textarea>
     </div>
     <p class="char" id="charCount"></p>
@@ -367,8 +375,8 @@ button{cursor:pointer;font:inherit}
   <div class="done" id="resultBody"></div>
 </section>
 
-<script src="config.js?v=20260927k"></script>
-<script src="orgs.js?v=20260927k"></script>
+<script src="config.js?v=20260927l"></script>
+<script src="orgs.js?v=20260927l"></script>
 <script>
 (function(){
   "use strict";
@@ -536,7 +544,7 @@ button{cursor:pointer;font:inherit}
     $("register").classList.add("hidden");
     $("app").classList.remove("hidden");
     $("orgPill").textContent = orgLabel();
-    $("howto").textContent = `${orgLabel()}　このたびはご後援いただき、誠にありがとうございます。全${works.length}作品から、貴団体の賞にふさわしい作品を第1〜第3希望まで選び、作品ごとにコメントをお書きください。締切は ${cfg.deadline || "事務局からの案内"} です。気になる作品に ☆ を付けておくと、あとで絞り込めます。`;
+    $("howto").textContent = `${orgLabel()}　このたびはご後援いただき、誠にありがとうございます。全${works.length}作品の中から、貴団体の賞にふさわしい作品の審査をお願いいたします。締切は ${cfg.deadline || "事務局からの案内"} です。`;
     $("who").textContent = `審査される方：${orgLabel()}　${who.name} 様（${who.email}）。選んだ内容はこの端末に保存され、送信すると控えがこのアドレスに届きます。`;
     renderSent();
     render();
@@ -560,7 +568,7 @@ button{cursor:pointer;font:inherit}
     try { localStorage.setItem(skey(), JSON.stringify(st)); } catch (e) {}
   }
   $("wipe").addEventListener("click", () => {
-    if (!confirm(`この端末に保存した ${who.name} 様の ☆候補・希望・コメント・受付番号と、お名前・メールアドレスの登録を消します。事務局に送った内容は消えません。よろしいですか？`)) return;
+    if (!confirm(`この端末に保存した ${who.name} 様の ☆候補・希望・理由・受付番号と、お名前・メールアドレスの登録を消します。事務局に送った内容は消えません。よろしいですか？`)) return;
     try { localStorage.removeItem(skey()); } catch (e) {}
     setPeople(allPeople().filter(p => !(p.email.toLowerCase() === who.email.toLowerCase() && p.orgId === org.id)));
     showRegister();
@@ -687,7 +695,7 @@ button{cursor:pointer;font:inherit}
     });
     const ready = [1,2,3].every(r => st.picks[r]);
     $("nextBtn").disabled = !ready;
-    $("nextBtn").textContent = ready ? "次へ：作品ごとにコメントを書く" : "第1〜第3希望を選んでください";
+    $("nextBtn").textContent = ready ? "次へ：選んだ理由を書く" : "第1〜第3希望を選んでください";
   }
   document.querySelectorAll("[data-slot]").forEach(s => s.addEventListener("click", () => {
     const no = st.picks[+s.dataset.slot]; if (no) openModal(no);
@@ -848,7 +856,7 @@ button{cursor:pointer;font:inherit}
     $("cfList").innerHTML = whoHTML() + `<div class="copy-list">` + [1,2,3].map(r => {
       const w = workBy(st.picks[r]);
       return `<h3>第${r}希望　No.${w.no} ${esc(w.menu)}</h3><p>${esc(st.comments[r].trim())}</p>
-        <p class="item-edit"><button type="button" class="linkish" data-edit="${r}">第${r}希望のコメントを修正する</button></p>`;
+        <p class="item-edit"><button type="button" class="linkish" data-edit="${r}">第${r}希望の理由を直す</button></p>`;
     }).join("") + `</div>`;
     $("cfList").querySelectorAll("[data-edit]").forEach(b => b.addEventListener("click", () => editFromConfirm(+b.dataset.edit)));
     $("cfErr").textContent = "";
@@ -960,7 +968,7 @@ button{cursor:pointer;font:inherit}
   function showError(msg){
     $("resultBody").innerHTML = `
       <h1>まだ送れていません</h1>
-      <div class="err-box">${esc(msg)}<br>選んだ作品とコメントは、この端末に残っています。</div>
+      <div class="err-box">${esc(msg)}<br>選んだ作品と理由は、この端末に残っています。</div>
       <div class="stack">
         <button class="btn" type="button" id="retry">もう一度送る</button>
         <a class="btn ghost" id="mailBtn" href="#">メールで送る（内容は入力済み）</a>
