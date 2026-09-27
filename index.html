@@ -153,11 +153,14 @@ button{cursor:pointer;font:inherit}
 .sheet .photo{min-height:220px;display:flex;align-items:center;justify-content:center;background:#EFE6D8}
 .sheet .photo img{width:100%;height:auto;max-height:62dvh;object-fit:contain}
 .sheet-close{
-  position:absolute;top:10px;right:10px;z-index:3;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.95);
-  font-size:22px;box-shadow:0 2px 8px rgba(0,0,0,.2);
+  position:absolute;top:10px;right:10px;z-index:3;height:44px;padding:0 16px;border-radius:999px;border:0;background:rgba(255,255,255,.95);
+  font-size:15px;font-weight:900;box-shadow:0 2px 8px rgba(0,0,0,.2);
 }
 .sheet-body{padding:16px 18px 20px}
 .sheet h2{margin:0 0 4px;font-size:22px;line-height:1.35}
+.sheet-foot{position:sticky;bottom:0;padding:10px 18px calc(10px + env(safe-area-inset-bottom));background:var(--card);border-top:1px solid var(--line)}
+.m-msg{margin:0;min-height:1.2em;font-size:14px;font-weight:700;color:var(--shiso)}
+.card .grade{font-size:12px;color:var(--shiso);font-weight:700;margin:0}
 .sheet .theme-l{margin:0 0 12px;color:var(--shiso);font-weight:700;font-family:var(--font-d)}
 .kv{margin:0 0 10px}
 .kv dt{font-size:12px;font-weight:700;color:var(--nori-soft)}
@@ -282,7 +285,7 @@ button{cursor:pointer;font:inherit}
 
 <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="mTitle">
   <div class="sheet" id="sheet">
-    <button class="sheet-close" type="button" id="mClose" aria-label="閉じる">×</button>
+    <button class="sheet-close" type="button" id="mClose" aria-label="閉じて作品一覧にもどる">× 閉じる</button>
     <div class="photo" id="mPhoto"></div>
     <div class="sheet-body">
       <h2 id="mTitle"></h2>
@@ -299,12 +302,14 @@ button{cursor:pointer;font:inherit}
           <button type="button" data-rank="2" aria-pressed="false">第2希望</button>
           <button type="button" data-rank="3" aria-pressed="false">第3希望</button>
         </div>
+        <p id="mMsg" class="m-msg" role="status"></p>
       </div>
       <div class="nav">
         <button type="button" id="mPrev">← 前の作品</button>
         <button type="button" id="mNext">次の作品 →</button>
       </div>
     </div>
+    <div class="sheet-foot"><button type="button" class="btn" id="mBack">作品一覧にもどる</button></div>
   </div>
 </div>
 
@@ -331,8 +336,8 @@ button{cursor:pointer;font:inherit}
   <div class="done" id="resultBody"></div>
 </section>
 
-<script src="config.js?v=20260927d"></script>
-<script src="orgs.js?v=20260927d"></script>
+<script src="config.js?v=20260927e"></script>
+<script src="orgs.js?v=20260927e"></script>
 <script>
 (function(){
   "use strict";
@@ -407,12 +412,23 @@ button{cursor:pointer;font:inherit}
       return;
     }
     if (location.hash) history.replaceState(null, "", location.pathname + location.search);
-    showRegister();
+    // 同じタブで開き直したときは、コード入力と審査者の選択を省く
+    const code = norm($("code").value), prev = getSes();
+    const email = prev && prev.code === code ? prev.email : null;
+    setSes({code, email: null});
+    const p = email && people().find(x => x.email.toLowerCase() === email.toLowerCase());
+    if (p) startAs(p); else showRegister();
   }
   $("enterBtn").addEventListener("click", enter);
   $("code").addEventListener("keydown", e => { if (e.key === "Enter") enter(); });
+  // タブを閉じると消える保存（sessionStorage）。localStorage には鍵もコードも置かない
+  const SES = "shokuiku26:session";
+  function getSes(){ try { return JSON.parse(sessionStorage.getItem(SES) || "null"); } catch (e) { return null; } }
+  function setSes(o){ try { sessionStorage.setItem(SES, JSON.stringify(o)); } catch (e) {} }
   const hc = new URLSearchParams(location.hash.slice(1)).get("c");
+  const ses0 = getSes();
   if (hc){ $("code").value = hc; enter(); }
+  else if (ses0 && ses0.code){ $("code").value = ses0.code; enter(); }
 
   // ---------- 審査者の登録（1団体に複数名可。メールアドレスで区別） ----------
   const orgLabel = () => org.name + (org.test ? "" : "様");
@@ -452,6 +468,8 @@ button{cursor:pointer;font:inherit}
 
   function startAs(p){
     who = p;
+    setSes({code: norm($("code").value), email: p.email});
+    history.replaceState({v: "app"}, "");
     st = {stars: [], picks: {1:null, 2:null, 3:null}, comments: {1:"", 2:"", 3:""}, sent: null};
 
     load();
@@ -549,7 +567,7 @@ button{cursor:pointer;font:inherit}
         <span class="wid">No.${w.no}</span>
         ${r ? `<span class="rank-badge">第${r}希望</span>` : ""}
         <span class="star-wrap"><button type="button" class="star" data-star="${w.no}" aria-pressed="${s}" aria-label="No.${w.no} を候補に${s ? "入れています" : "入れる"}">${s ? "★" : "☆"}</button></span>
-        <div class="card-body"><h2>${esc(w.menu)}</h2><p class="theme">${esc(w.theme)}</p></div>
+        <div class="card-body"><p class="grade">${esc(w.grade)}</p><h2>${esc(w.menu)}</h2><p class="theme">${esc(w.theme)}</p></div>
       </div>`;
     }).join("") : `<p class="empty">${filter === "star" ? "☆ を付けた作品はまだありません。" : "見つかりませんでした。"}</p>`;
     grid.querySelectorAll(".photo").forEach(box => {
@@ -624,14 +642,22 @@ button{cursor:pointer;font:inherit}
     modalNo = no; fillModal();
     $("modal").classList.remove("hidden"); document.body.classList.add("lock");
     $("mClose").focus({preventScroll: true}); $("sheet").scrollTop = 0;
+    // 端末の「戻る」で詳細だけ閉じる（ページから出てコード入力に戻らないように）
+    history.pushState({v: "modal"}, "");
+  }
+  function hideModal(){
+    if ($("modal").classList.contains("hidden")) return;
+    $("modal").classList.add("hidden"); document.body.classList.remove("lock"); modalNo = null;
+    if (lastFocus && lastFocus.focus) lastFocus.focus({preventScroll: true});
   }
   function closeModal(){
-    $("modal").classList.add("hidden"); document.body.classList.remove("lock"); modalNo = null;
-    if (lastFocus && lastFocus.focus) lastFocus.focus();
+    if (history.state && history.state.v === "modal") history.back();  // popstate で閉じる
+    else hideModal();
   }
   function fillModal(){
     const w = workBy(modalNo);
-    $("mPhoto").innerHTML = `<img alt="No.${w.no} の料理写真"><span class="wid">No.${w.no}</span><span class="wm">${esc(orgLabel())}・審査用</span>`;
+    $("mMsg").textContent = "";
+    $("mPhoto").innerHTML = `<img alt="No.${w.no} の料理写真"><span class="wid">No.${w.no}　${esc(w.grade)}</span><span class="wm">${esc(orgLabel())}・審査用</span>`;
     const img = $("mPhoto").querySelector("img");
     if (thumbs.has(w.no)){ img.src = thumbs.get(w.no); img.classList.add("on"); }
     blobUrl(`f/${pad(w.no)}.bin`, fulls, w.no).then(url => {
@@ -683,21 +709,40 @@ button{cursor:pointer;font:inherit}
   });
   $("mPrev").addEventListener("click", () => step(-1));
   $("mNext").addEventListener("click", () => step(1));
-  $("mStar").addEventListener("click", () => toggleStar(modalNo));
-  document.querySelectorAll("#modal [data-rank]").forEach(b => b.addEventListener("click", () => setPick(+b.dataset.rank, modalNo)));
+  $("mBack").addEventListener("click", closeModal);
+  $("mStar").addEventListener("click", () => {
+    toggleStar(modalNo);
+    $("mMsg").textContent = st.stars.includes(modalNo) ? "☆候補に入れました。" : "☆候補から外しました。";
+  });
+  document.querySelectorAll("#modal [data-rank]").forEach(b => b.addEventListener("click", () => {
+    const no = modalNo;
+    setPick(+b.dataset.rank, no);
+    const r = rankOf(no);
+    $("mMsg").textContent = r
+      ? `第${r}希望に選びました。ほかの作品を見るときは、下の「作品一覧にもどる」を押してください。`
+      : "希望から外しました。";
+  }));
+
+  // 端末の「戻る」: 詳細 → 一覧、コメント画面 → 一覧
+  window.addEventListener("popstate", () => {
+    const v = history.state && history.state.v;
+    if (v !== "modal") hideModal();
+    if (v !== "comment" && !$("commentStep").classList.contains("hidden")){ show("app"); render(); }
+    if (v !== "result" && !$("result").classList.contains("hidden")){ show("app"); renderSent(); render(); }
+  });
 
   // ---------- コメント ----------
   function show(id){
     ["app", "commentStep", "result"].forEach(x => $(x).classList.toggle("hidden", x !== id));
     window.scrollTo(0, 0);
   }
-  $("nextBtn").addEventListener("click", () => { commentRank = 1; show("commentStep"); showStep(); });
+  $("nextBtn").addEventListener("click", () => { commentRank = 1; show("commentStep"); showStep(); history.pushState({v: "comment"}, ""); });
 
   function showStep(){
     const w = workBy(st.picks[commentRank]);
     $("stepRank").textContent = `第${commentRank}希望　${commentRank} / 3`;
     [1,2,3].forEach(n => $("dot" + n).classList.toggle("on", n <= commentRank));
-    $("stepWork").innerHTML = photoHTML(w.no) + `<div class="card-body"><h2>No.${w.no} ${esc(w.menu)}</h2><p class="theme" style="margin:4px 0 0;color:var(--nori-soft)">「${esc(w.theme)}」</p></div>`;
+    $("stepWork").innerHTML = photoHTML(w.no) + `<div class="card-body"><h2>No.${w.no} ${esc(w.menu)}</h2><p class="theme" style="margin:4px 0 0;color:var(--nori-soft)">${esc(w.grade)}　「${esc(w.theme)}」</p></div>`;
     const img = $("stepWork").querySelector("img");
     blobUrl(`t/${pad(w.no)}.bin`, thumbs, w.no).then(url => { img.src = url; img.classList.add("on"); }).catch(() => {});
     $("stepComment").value = st.comments[commentRank] || "";
@@ -709,7 +754,10 @@ button{cursor:pointer;font:inherit}
   function updChar(){ $("charCount").textContent = $("stepComment").value.trim().length + "字　・　" + MIN_COMMENT + "字以上"; }
   $("stepComment").addEventListener("input", () => { st.comments[commentRank] = $("stepComment").value; save(); updChar(); $("stepErr").textContent = ""; });
   $("stepBack").addEventListener("click", () => {
-    if (commentRank === 1){ show("app"); render(); return; }
+    if (commentRank === 1){
+      if (history.state && history.state.v === "comment") history.back(); else { show("app"); render(); }
+      return;
+    }
     commentRank--; showStep();
   });
   $("stepNext").addEventListener("click", () => {
@@ -771,6 +819,7 @@ button{cursor:pointer;font:inherit}
   }
 
   function showDone(res){
+    if (history.state && history.state.v === "comment") history.replaceState({v: "result"}, "");
     $("resultBody").innerHTML = `
       <h1>${res.demo ? "確認版のため、送信はしていません" : "受け付けました"}</h1>
       <p>${esc(orgLabel())}　${esc(who.name)} 様の審査結果${res.demo ? "（確認版）" : "を事務局で受け付けました"}。ご後援・ご審査をいただき、誠にありがとうございました。</p>
@@ -782,11 +831,14 @@ button{cursor:pointer;font:inherit}
       ${copyListHTML()}
       <p class="fine">内容を変えたいときは、作品一覧から選び直して送り直してください。最後に送った内容を採用します。他の団体様と第1希望が重なった場合は、事務局からご相談のご連絡をいたします。</p>
       <div class="stack"><button class="btn ghost" type="button" id="backList">作品一覧に戻る</button></div>`;
-    $("backList").addEventListener("click", () => { show("app"); renderSent(); render(); });
+    $("backList").addEventListener("click", () => {
+      if (history.state && history.state.v === "result") history.back(); else { show("app"); renderSent(); render(); }
+    });
     show("result");
   }
 
   function showError(msg){
+    if (history.state && history.state.v === "comment") history.replaceState({v: "result"}, "");
     $("resultBody").innerHTML = `
       <h1>まだ送れていません</h1>
       <div class="err-box">${esc(msg)}<br>選んだ作品とコメントは、この端末に残っています。</div>
@@ -798,8 +850,9 @@ button{cursor:pointer;font:inherit}
       <p class="fine">メールの宛先: ${esc(cfg.contact)}</p>
       ${copyListHTML()}`;
     $("mailBtn").setAttribute("href", mailtoHref());
-    $("retry").addEventListener("click", () => { commentRank = 3; show("commentStep"); showStep(); submit(); });
-    $("backEdit").addEventListener("click", () => { commentRank = 3; show("commentStep"); showStep(); });
+    const toComment = () => { commentRank = 3; show("commentStep"); showStep(); if (history.state && history.state.v === "result") history.replaceState({v: "comment"}, ""); };
+    $("retry").addEventListener("click", () => { toComment(); submit(); });
+    $("backEdit").addEventListener("click", toComment);
     show("result");
   }
 
