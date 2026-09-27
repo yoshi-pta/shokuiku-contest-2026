@@ -84,6 +84,11 @@ button{cursor:pointer;font:inherit}
 .note p{margin:0}
 .note p+p{margin-top:6px}
 .sent-note{background:#EAF2EC;border-left-color:var(--shiso)}
+.org-l{font-family:var(--font-d);font-weight:900;font-size:clamp(20px,5vw,26px);margin:0 0 8px;line-height:1.4}
+.thanks-l{margin:0 0 16px;padding:12px 14px;background:#FFF6DD;border-radius:12px;font-size:15px}
+.test-note{margin:0 0 16px;padding:10px 12px;border:2px dashed var(--shiso);border-radius:12px;font-size:13px;color:var(--shiso);font-weight:700}
+.reg-h{font-size:18px;margin:6px 0 6px}
+.people{margin:0 0 16px}
 .linkish{border:0;background:none;padding:0;color:var(--tomato-deep);text-decoration:underline;font-size:13px;font-family:var(--font-t)}
 
 /* ツールバー */
@@ -215,6 +220,31 @@ button{cursor:pointer;font:inherit}
   </div>
 </section>
 
+<section id="register" class="gate hidden">
+  <div class="gate-card">
+    <p class="org-l" id="rOrg"></p>
+    <p class="thanks-l">このたびは、麻生区PTA協議会「食育推進コンテスト」にご後援いただき、誠にありがとうございます。<br>応募作品の審査を、どうぞよろしくお願いいたします。</p>
+    <p id="testNote" class="test-note hidden">役員の検証用アカウントです。送信は「検証」として記録され、審査の集計には入りません。</p>
+    <div id="people" class="people hidden">
+      <p class="fine" style="margin:0 0 6px">この端末で審査中の方</p>
+      <div id="peopleList" class="stack" style="margin-top:0"></div>
+      <p class="fine" style="margin:14px 0 0">別の方が審査する場合は、下にご登録ください。</p>
+    </div>
+    <h2 class="reg-h">審査をされる方のご登録</h2>
+    <p class="lead" style="margin:0 0 14px">受け付けた審査内容の控えを、ご登録のメールアドレスにお送りします。同じ団体で複数の方が審査される場合は、お一人ずつご登録ください。</p>
+    <div class="field">
+      <label for="rName">お名前</label>
+      <input id="rName" type="text" autocomplete="name" maxlength="40" placeholder="例）麻生 花子">
+    </div>
+    <div class="field">
+      <label for="rEmail">メールアドレス</label>
+      <input id="rEmail" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" maxlength="120" placeholder="例）hanako@example.jp">
+    </div>
+    <p id="rErr" class="warn" role="alert"></p>
+    <button class="btn" id="rBtn" type="button">登録して作品を見る</button>
+  </div>
+</section>
+
 <div id="app" class="hidden">
   <header class="app-bar">
     <div class="inner">
@@ -226,7 +256,8 @@ button{cursor:pointer;font:inherit}
     <div class="note">
       <p id="howto"></p>
       <p>作品の転載・SNS掲載・画面の撮影や共有はご遠慮ください（応募時の同意の範囲外です）。</p>
-      <p><button type="button" id="wipe" class="linkish">この端末に保存した選択・コメントを消す</button>（共用の端末で使ったとき）</p>
+      <p id="who"></p>
+      <p><button type="button" id="switchWho" class="linkish">別の方として審査する</button>　／　<button type="button" id="wipe" class="linkish">この端末に保存した選択・コメントを消す</button>（共用の端末で使ったとき）</p>
     </div>
     <div class="note sent-note hidden" id="sentNote"></div>
     <div class="toolbar">
@@ -300,8 +331,8 @@ button{cursor:pointer;font:inherit}
   <div class="done" id="resultBody"></div>
 </section>
 
-<script src="config.js?v=20260927b"></script>
-<script src="orgs.js?v=20260927b"></script>
+<script src="config.js?v=20260927c"></script>
+<script src="orgs.js?v=20260927c"></script>
 <script>
 (function(){
   "use strict";
@@ -376,21 +407,66 @@ button{cursor:pointer;font:inherit}
       return;
     }
     if (location.hash) history.replaceState(null, "", location.pathname + location.search);
-    load();
-    $("gate").classList.add("hidden");
-    $("app").classList.remove("hidden");
-    $("orgPill").textContent = org.name;
-    $("howto").textContent = `全${works.length}作品から、貴団体の賞にふさわしい作品を第1〜第3希望まで選び、作品ごとにコメントをお書きください。締切は ${cfg.deadline || "事務局からの案内"} です。気になる作品に ☆ を付けておくと、あとで絞り込めます。選んだ内容はこの端末に保存されます。`;
-    renderSent();
-    render();
+    showRegister();
   }
   $("enterBtn").addEventListener("click", enter);
   $("code").addEventListener("keydown", e => { if (e.key === "Enter") enter(); });
   const hc = new URLSearchParams(location.hash.slice(1)).get("c");
   if (hc){ $("code").value = hc; enter(); }
 
+  // ---------- 審査者の登録（1団体に複数名可。メールアドレスで区別） ----------
+  const orgLabel = () => org.name + (org.test ? "" : "様");
+  let who = null;  // {name, email}
+  const pkey = () => "shokuiku26:" + org.id + ":people";
+  function people(){
+    try { return JSON.parse(localStorage.getItem(pkey()) || "[]"); } catch (e) { return []; }
+  }
+  function setPeople(list){
+    try { localStorage.setItem(pkey(), JSON.stringify(list)); } catch (e) {}
+  }
+  function showRegister(){
+    who = null;
+    ["gate", "app", "commentStep", "result"].forEach(x => $(x).classList.add("hidden"));
+    $("register").classList.remove("hidden");
+    $("rOrg").textContent = orgLabel();
+    $("testNote").classList.toggle("hidden", !org.test);
+    const list = people();
+    $("people").classList.toggle("hidden", !list.length);
+    $("peopleList").innerHTML = list.map((p, i) =>
+      `<button type="button" class="btn ghost" data-person="${i}">${esc(p.name)} 様として続ける</button>`).join("");
+    $("peopleList").querySelectorAll("[data-person]").forEach(b =>
+      b.addEventListener("click", () => startAs(list[+b.dataset.person])));
+    $("rName").value = ""; $("rEmail").value = ""; $("rErr").textContent = "";
+    window.scrollTo(0, 0);
+  }
+  $("rBtn").addEventListener("click", () => {
+    const name = $("rName").value.trim().replace(/\s+/g, " ");
+    const email = $("rEmail").value.normalize("NFKC").trim();
+    if (!name){ $("rErr").textContent = "お名前を入力してください。"; $("rName").focus(); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ $("rErr").textContent = "メールアドレスをご確認ください。"; $("rEmail").focus(); return; }
+    const list = people().filter(p => p.email.toLowerCase() !== email.toLowerCase());
+    list.push({name, email}); setPeople(list);
+    startAs({name, email});
+  });
+  $("rEmail").addEventListener("keydown", e => { if (e.key === "Enter") $("rBtn").click(); });
+
+  function startAs(p){
+    who = p;
+    st = {stars: [], picks: {1:null, 2:null, 3:null}, comments: {1:"", 2:"", 3:""}, sent: null};
+
+    load();
+    $("register").classList.add("hidden");
+    $("app").classList.remove("hidden");
+    $("orgPill").textContent = orgLabel();
+    $("howto").textContent = `${orgLabel()}　このたびはご後援いただき、誠にありがとうございます。全${works.length}作品から、貴団体の賞にふさわしい作品を第1〜第3希望まで選び、作品ごとにコメントをお書きください。締切は ${cfg.deadline || "事務局からの案内"} です。気になる作品に ☆ を付けておくと、あとで絞り込めます。`;
+    $("who").textContent = `審査される方：${who.name} 様（${who.email}）。選んだ内容はこの端末に保存され、送信すると控えがこのアドレスに届きます。`;
+    renderSent();
+    render();
+  }
+  $("switchWho").addEventListener("click", showRegister);
+
   // ---------- 端末内保存（鍵・トークンは保存しない） ----------
-  const skey = () => "shokuiku26:" + org.id;
+  const skey = () => "shokuiku26:" + org.id + ":" + who.email.toLowerCase();
   const KEEP_MS = 60 * 24 * 3600 * 1000;  // 60日たった記録は読まない
   function load(){
     try {
@@ -405,10 +481,10 @@ button{cursor:pointer;font:inherit}
     try { localStorage.setItem(skey(), JSON.stringify(st)); } catch (e) {}
   }
   $("wipe").addEventListener("click", () => {
-    if (!confirm("この端末に保存した ☆候補・希望・コメント・受付番号を消します。事務局に送った内容は消えません。よろしいですか？")) return;
+    if (!confirm(`この端末に保存した ${who.name} 様の ☆候補・希望・コメント・受付番号と、お名前・メールアドレスの登録を消します。事務局に送った内容は消えません。よろしいですか？`)) return;
     try { localStorage.removeItem(skey()); } catch (e) {}
-    st = {stars: [], picks: {1:null, 2:null, 3:null}, comments: {1:"", 2:"", 3:""}, sent: null};
-    renderSent(); render();
+    setPeople(people().filter(p => p.email.toLowerCase() !== who.email.toLowerCase()));
+    showRegister();
   });
 
   // ---------- 一覧 ----------
@@ -458,7 +534,7 @@ button{cursor:pointer;font:inherit}
   }
 
   function photoHTML(no, cls){
-    return `<div class="photo ${cls || ""}" data-no="${no}"><img alt="No.${no} の料理写真"><span class="wm">${esc(org.name)}・審査用</span></div>`;
+    return `<div class="photo ${cls || ""}" data-no="${no}"><img alt="No.${no} の料理写真"><span class="wm">${esc(orgLabel())}・審査用</span></div>`;
   }
 
   function render(){
@@ -555,7 +631,7 @@ button{cursor:pointer;font:inherit}
   }
   function fillModal(){
     const w = workBy(modalNo);
-    $("mPhoto").innerHTML = `<img alt="No.${w.no} の料理写真"><span class="wid">No.${w.no}</span><span class="wm">${esc(org.name)}・審査用</span>`;
+    $("mPhoto").innerHTML = `<img alt="No.${w.no} の料理写真"><span class="wid">No.${w.no}</span><span class="wm">${esc(orgLabel())}・審査用</span>`;
     const img = $("mPhoto").querySelector("img");
     if (thumbs.has(w.no)){ img.src = thumbs.get(w.no); img.classList.add("on"); }
     blobUrl(`f/${pad(w.no)}.bin`, fulls, w.no).then(url => {
@@ -659,15 +735,20 @@ button{cursor:pointer;font:inherit}
     }).join("") + `</div>`;
   }
   function mailtoHref(){
-    const subject = `【食育審査】${org.name} 第1〜第3希望`;
-    const body = `麻生区PTA協議会 食育推進コンテスト担当 御中\n\n${org.name} の審査結果をお送りします。\n（審査ページの送信がうまくいかなかったため、メールでお送りします）\n\n${summaryText()}\n`;
+    const subject = `【食育審査】${orgLabel()} ${who.name} 第1〜第3希望`;
+    const body = `麻生区PTA協議会 食育コンテスト事務局 御中\n\n${orgLabel()}\n審査者：${who.name}（${who.email}）\n\n審査結果をお送りします。\n（審査ページの送信がうまくいかなかったため、メールでお送りします）\n\n${summaryText()}\n`;
     return `mailto:${cfg.contact}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }
 
   async function submit(){
     const btn = $("stepNext");
     btn.disabled = true; btn.innerHTML = '<span class="spin" aria-hidden="true"></span>送信しています…';
-    const payload = {orgId: org.id, token, picks: [1,2,3].map(r => st.picks[r]), comments: [1,2,3].map(r => st.comments[r].trim())};
+    const payload = {
+      orgId: org.id, token, name: who.name, email: who.email,
+      picks: [1,2,3].map(r => st.picks[r]),
+      menus: [1,2,3].map(r => workBy(st.picks[r]).menu),
+      comments: [1,2,3].map(r => st.comments[r].trim())
+    };
     let res;
     if (!connected){
       res = {ok: true, receipt: "確認版（未送信）", at: new Date().toLocaleString("ja-JP"), demo: true};
@@ -692,11 +773,14 @@ button{cursor:pointer;font:inherit}
   function showDone(res){
     $("resultBody").innerHTML = `
       <h1>${res.demo ? "確認版のため、送信はしていません" : "受け付けました"}</h1>
-      <p>${esc(org.name)} の審査結果${res.demo ? "（確認版）" : "を事務局で受け付けました"}。ありがとうございました。</p>
+      <p>${esc(orgLabel())}　${esc(who.name)} 様の審査結果${res.demo ? "（確認版）" : "を事務局で受け付けました"}。ご後援・ご審査をいただき、誠にありがとうございました。</p>
       <div class="receipt">受付番号　<b>${esc(res.receipt)}</b><br>受付日時　${esc(res.at)}</div>
-      <p>送った内容の控えです（念のため画面を保存しておくと安心です）。</p>
+      <p>${res.demo ? "確認版のため、控えのメールは送っていません。"
+        : res.mailed === false ? `控えのメールを送れませんでした（受付は完了しています）。お手数ですが、この画面を保存してください。`
+        : `控えを ${esc(who.email)} にお送りしました。届かない場合は迷惑メールのフォルダもご確認ください。`}</p>
+      <p>送った内容の控えです。</p>
       ${copyListHTML()}
-      <p class="fine">内容を変えたいときは、作品一覧から選び直して送り直してください。最後に送った内容を採用し、事務局から確認のご連絡をすることがあります。他団体と第1希望が重なった場合も、事務局からご連絡します。</p>
+      <p class="fine">内容を変えたいときは、作品一覧から選び直して送り直してください。最後に送った内容を採用します。他の団体様と第1希望が重なった場合は、事務局からご相談のご連絡をいたします。</p>
       <div class="stack"><button class="btn ghost" type="button" id="backList">作品一覧に戻る</button></div>`;
     $("backList").addEventListener("click", () => { show("app"); renderSent(); render(); });
     show("result");

@@ -6,176 +6,242 @@ window.ORGS = [
   "id": "healthmate",
   "name": "麻生区食生活改善推進委員（ヘルスメイト）",
   "p": "HM",
-  "s": "ZucVDxbqt4YnKeNlKUglvg==",
-  "i": "YdkphNay3XmtVpBt",
-  "w": "PsbV+zt7DENz5LOHrApizrSR+9XnAWulRIu0u+dBGILWK1zK9K7fM+qT2M0t1lt2HtyAEiaef/9fKQ/mVyiXJkkz0UeOsByPT+XYu5+kab6hs6KDhUROznX5ex5IKR2x665i2w=="
+  "s": "WNiVAR7Z/o1RnAl14Dfp6g==",
+  "i": "6Hwzx7NdM7QOIr8H",
+  "w": "GnWf5MelF4Y0+6ls3xM7ntAsvzKsDhAQk6m4Rgwk79kbyVgAkEB8WN1v7VerGhMX2lzc1Sb/N6BbEwOBDR3aeorbcacMREw1UNouEhN6PI1Dl4kQFfTz6fjoBXvGWiKKnclOFQ=="
  },
  {
   "id": "eastfarm",
   "name": "イーストファーム",
   "p": "EF",
-  "s": "9UwBFa5BVw+tgkN6JIGdNA==",
-  "i": "bVVeBv6muoSews2b",
-  "w": "tbv0v12MTr3wJnpcNE+u/BrXUY9raL8P26Hd4GB5edUHAePUz+9ZJq6ba0WPYKCsDG89YI95Y0HCk7PGc0Pfkqy4izNIckXNrDHWnSkTXUOErSnmajVNocA98uRFq3ylEy30Eg=="
+  "s": "oIlb6ITt3sBrtYIFcxSEOg==",
+  "i": "hcUDEpXNNbopyqVK",
+  "w": "5zxDwWnfjJN6LujBSm0KhCXgC2fIfCGVIDOQDs37YbeJNdZM7o0VLc0YO8wlQHsvI6tjxihyf0s1E/OZp5uhlLpf5wg5jviVeSRk1Z4LYFxJg3lQGr8H7OYLupTwXD25yt/D+A=="
  },
  {
   "id": "ichikawa",
   "name": "いちかわ果樹園",
   "p": "IK",
-  "s": "Zh2ytGHcJRi1CeJKh+S7IA==",
-  "i": "oyjbGsONL8aQIiSR",
-  "w": "1jebsVX40/yxo9H+cQmQJog+hnSoNu/f9QNa5L2oICP3cpi5+tL9EW3eEAN6nUp8R7zBS4BdNs4GIItCYprXI7DBxmeSUIfaxhgIN8078ZQXZhAeq5TxsTY12UPbHsb3AtZC3g=="
+  "s": "F9LD41/3Lq9E/5TNjteZ2g==",
+  "i": "+y/QfuNeKqeHU50N",
+  "w": "eJ9kBZkdsDXWHHqDAXyd74NQKGzxyB7xNiDwnVH6THURe6CkNULRMaYHhB/YdL7SPj8QOb+fYSldh3g7r4n7G18V9j92duUUsagwivP4OViEhww++9Xv6IJQnC9JOtMDYcvLOQ=="
  },
  {
-  "id": "midori",
-  "name": "川崎みどりの病院",
-  "p": "MD",
-  "s": "SRCBDUR3HXBr1Fj255mMTQ==",
-  "i": "38D7lt5qegzdzLbS",
-  "w": "aV2YAZTwdZvfQcl4OeSTetdR5FvXGc8uvyOObJInGo1TUV5+BHGlnP8xLiNSvHjZCuBjUYBGPN3pQmv5jc1gpiLJET9R1ahWDDGBoAS0JKoNJ7hyr7COm1szW0QdHiu2+UERPQ=="
+  "id": "aeon",
+  "name": "イオンスタイル新百合ヶ丘",
+  "p": "AE",
+  "s": "S4djdyl6RZWzGLDb86aLcQ==",
+  "i": "7nMyUfcc+eeIOK9M",
+  "w": "KdoAPSMefKlnzVIxNB3Yeb6cr2OD0uS72G+6bpcrzZi+yie/UPbWwA3cAn+9KRfaf6Jow+wJZUsahBSYr1NdI19wIj2yOPbUA2e4T3Ksvfyp9oPfuF+W8O7httf+vdotmEHg/g=="
  },
  {
   "id": "hiyoshidai",
-  "name": "たま日吉台病院",
+  "name": "医療法人社団 晃進会 たま日吉台病院",
   "p": "TH",
-  "s": "Vw2k9nZ20/ag7+0plN4phQ==",
-  "i": "beii3UhO7YS7k2II",
-  "w": "TuczG5zxKRkRAq2kiafufiHUKOZBGkJt35x/YKNbE50OnRSG73SjgeJ+l4s8a+Kp0ty/ibIHuhH/Gn5YfB58juyhc3UvTwuJScpHZ7X+Kev7NfwkHr78R63b05ug4e9/VexFpw=="
+  "s": "IRAw5je5rqWwYc+5+KOchQ==",
+  "i": "r73aciaxWIVzqQeS",
+  "w": "tFc5gmXl4fFf18TAMwOpbX7ue/0N5zVrkHmvuwl+vJmIC5G34l6Pb/EGkuo2mRcsMJ+RgkppGz7r4GfNczRSp4HJ4Rqf9ZuaZpnM1UTNf9U9GB+CyIaFGGaw84EMf2MZPbwteQ=="
+ },
+ {
+  "id": "midori",
+  "name": "医療法人社団 晃進会 川崎みどりの病院",
+  "p": "MD",
+  "s": "R1nc+hdQfcDyUYv4XgD2Zg==",
+  "i": "6U5nyzhMRzKreBch",
+  "w": "fHePuWSoym2M8xGmRhLtEoU7WlWQvrN+DenjkpXhEsX0uZ8z0KDn2PUOzLD88ZAOdgI1dk+i0rZqZ56OD7EVGsFVsbE7fmdztKJwjKA+40x01NYngZ58V+EmS7SHFFjWJkN8xA=="
  },
  {
   "id": "ace",
   "name": "（株）エースプランニング",
   "p": "AP",
-  "s": "t53tY8AjTmhpRTJUNB62Lg==",
-  "i": "o2HHgtIPM0Nv6gJ8",
-  "w": "a7/Mrh98AMoBRJc9Dbibrsaxe34ro1vTO5yeNnEbc0Ba3zbGxlKE1ndIvvsj0CdUfnv5dlpt2HbdqI9Jpb3sXqR+ys9xZG7Yak9trEUZuK16teo9VKfdy1cIHzRMxlpg3QHVXw=="
+  "s": "o0aCaLxhH1vo+Uv10vN5Aw==",
+  "i": "39YL8niQeZqJP725",
+  "w": "nST/pb9tEGuLfHAwXNlTjKJTml6hqi+vZdpY/4d/PpNbni9kZP5XHHYh5ycOJ5b7u5B+ASSKa5vt68yBvFExHtm72tRGaoro4NkVJTr/vrJiIm18mE0VijFs0Pz3khE9PAlelQ=="
  },
  {
   "id": "odakyu",
   "name": "小田急不動産（株）",
   "p": "OD",
-  "s": "qTY4i5skVEn/28GQ5oMq6A==",
-  "i": "C8WPE07BtXW4DaXm",
-  "w": "DlXjf4AtdOUob+VQTHePBliFct9v/VeJ0HEp77F/LO9fOgpTcY3O/fZTCv/MtVrQeAmJfU6jw1dl64HyThpoAZDcZHUGjbWHJqjlJZJXwDRBX90LUE/ImhfzkPEsV5arTGrIZw=="
+  "s": "bG+FMoQUJZIRwyugld1MwA==",
+  "i": "fP25YZ1BgWKtijWb",
+  "w": "zL//JAIP+uqjap4VwdQ+4eoRQ47/9pRpXDQ6pNB7qzGlZiz2w3kNA60erMVBaotYg6PGDTOgNv3UmRRvhK0T50Cnq89y2GinN5isoruevyexZUhKXZ7w4XZb2PRvMn7s6IkK+g=="
  },
  {
   "id": "kasahara",
   "name": "笠原農園",
   "p": "KS",
-  "s": "uWYegEMTSpCS8sIXOgYtxw==",
-  "i": "O1XYFmWulzvA3ghE",
-  "w": "2u/0HGjGcoOTnBHk6IoUb6nWjtiWEaEy2/bZTHoecRjChQ9hBy/kFlcDe9OOpT8jM8HVhEtKKfxTJGlZFPXYxpKkyBOB/v0z6O/y8AlPjdusmhTuPuKFhX1ya+Injz2EOVwRlw=="
+  "s": "lcjg+JAK+z+q6w5MTaFrmw==",
+  "i": "EoB6+PmKGGp8nP26",
+  "w": "ta6iFpwZRK9/afXVzY+2Jqp1Oq7XpIA/ng8QQ6DwKy9ncNA9pNSCy8TMrGAP8bTOJBJN8MK/69gBVjFRsqBHVAX4w0R90C+3XPm/FHNN2L1rrG9X1VAL8xrm/XEfAN+T7J80cg=="
  },
  {
   "id": "casinoya",
   "name": "（株）カジノヤ",
   "p": "CN",
-  "s": "GggUgpO9+d0iEW8fHf8YNw==",
-  "i": "sjs1FxaTlrKe6KN4",
-  "w": "/lfFXeY4bRY7wWsCS30rAv3/faXPdwtbD79IHngKDgGCi7URz8bjuoWl03KaYyDRVN4iqQ49LAIt+tLZcQsRUZzB8C1OtGAmQu/Ef00eCNPT6OmqA6TrvkYACNjHXSRyZ/to5w=="
+  "s": "NPdSsEfqR+p6YYoRimlGuw==",
+  "i": "CQbNlMCOdCdanU9C",
+  "w": "AhCsqkFJjyrlFyN6PrUV+OuMkDLK70Vr29aWqYRKzxZej0yKYcGVAsB+wPWbDzFvEBVLwjkr86w3y7EUL7O9ehlR7dXTSowavkZBntXttsLHD4rvHSRO7mGA+43cEp96NumLJg=="
+ },
+ {
+  "id": "coredeli",
+  "name": "コアデリサンテ",
+  "p": "CD",
+  "s": "6SDS6pzjMcytV/spbg9JAQ==",
+  "i": "01kB7FtLe30v7Qmc",
+  "w": "OfLfBoEyWeRW9OCusb0ly5wp/am0vou2UFH5HXCfNdWcwqw33T+4IBtOvZUrIaASYznRd+P9aQ0MJc0f9qzdjkUZl3jcb6HQ/Gw0efwQqvnhYLodXy4XAWmkAODdd84GyxJSoQ=="
+ },
+ {
+  "id": "kurinoki",
+  "name": "栗の木ファーム",
+  "p": "KF",
+  "s": "hhcPws+n72tCS+E5zLsPyg==",
+  "i": "wnnh9UyrzRFLNhb3",
+  "w": "He4is0TUZw6V0B4AKyn3VnmHsDC6ZgUZKe01AOawqcyDHNzR/ygzeSPWOA/pvb6e9ESYEsrOJwUIkBwkShP+Z2C+O2LAHzOwvCDqwObJN9s+6cLQNh58I2hlLv2lBii9dWTD6w=="
  },
  {
   "id": "morie",
-  "name": "シュトーレン工房 morie",
+  "name": "シュトーレン工房morie",
   "p": "MO",
-  "s": "NaC/lOaXB/Qwbrl04q81ow==",
-  "i": "CtK2jtyHVydt9J4I",
-  "w": "JTAn4LwcT6MRBwrWkdDJEv7YnVSWiHJiIrWg/wnJaOqDtU2X1eI3sn1AqT/bnpP1bv1sH9d/BDg0WdKQUT3As0gzAaCF19kD5a8YVOcdglgxhjqrjazCe2IUnSs1PIWJZX5OIg=="
+  "s": "5Rn0d1Zq6g2SIk49/+/PNg==",
+  "i": "8Rl4JWTXrWWrgThA",
+  "w": "YNl43Lou8+vFN6O9GfhOkmlWPw8IaaoLdWzI+3hxOdDJ7hepCo5yXgdFjW1+HpGHLpfslGeMXg8BGs5bYyfzLjhhehK6jDHQts3aQNKGcQ0o9B68ZiRKy3iyodj7Xxmdp1XLbQ=="
+ },
+ {
+  "id": "palsystem",
+  "name": "生活協同組合 パルシステム神奈川",
+  "p": "PS",
+  "s": "AibHEfzKoDigmxF/VHzN6g==",
+  "i": "JUe+5NMr0csgwqOI",
+  "w": "Y+SS3r82bWY+8wv6VnQdqDOagpSiYzW5GiOtLhdFDNbwNnwarzgEKHKz2PKFFkUScnbsCixxEUC/CXH41CyZdo0r7ZUh2ZorpJnzatzcOQmg77KNNdXha8ayUuSXTNTFYDlzdA=="
+ },
+ {
+  "id": "seresamos",
+  "name": "セレサモス麻生店",
+  "p": "SM",
+  "s": "TYaKUY5tBBQ2mEReDJCBVQ==",
+  "i": "naYbvVFUXYkWPJsa",
+  "w": "ArvKdrl7Ze+d1J1W066RnpoGI6KfM95IXnwjJKQe6DIGCAboA5lK86R+NIxXW/X8fPVCv12O1qOqqpFTTY6YtgfwuLJl4Xny2fv12gtmQEpac7D5zeU5NBdWmNb7/Cg8JRTbsA=="
  },
  {
   "id": "tachikawa",
   "name": "立川農園",
   "p": "TC",
-  "s": "DDzbEj+XLwpHKFCnToMJ0w==",
-  "i": "v1D7dR7MybuY8cOF",
-  "w": "32re5m4/vN3J9wkOWT1vXkKOClg9a5zkdPfwGhOc4MsM/8YMdvjM7Z+uUHvW/fmw0azLUTV2K/LOpQv4ZEd5h4oPPhR6T+Cfyxyct4A0SBbycO/TJNvaOJEK6Y9ZkXCmTseVUg=="
+  "s": "jqhONkc84E44IdgLk+kHRg==",
+  "i": "0zgSs3s7AfrgQi5X",
+  "w": "C2lg+qY6VCm2bii3c3knPvgyJPuzePfJctUU8ir0borrgkTAYuNxndTPQpjNmz72RQCIbAMtTU1hyJsEpiWyOvsyL9SCw+iuFDCVRiPgBdk9ygKPX5TL13xs73vyV6iVSLP0NQ=="
  },
  {
   "id": "hatake",
   "name": "畑から、台所へ。",
   "p": "HT",
-  "s": "fTjIlv37ikG5ayjVSCn22g==",
-  "i": "fF/pdsDpaiLQ3lZu",
-  "w": "9R/jvD9Tg0luSnuFu6dssKrcVAVx4WILslJZpdoNXGKwxgbskdW4TgBSV+0HozujcUHcoULxLLf+POWcZQUOtP29i0MmTnCw1g8SM+iaeslEXzlImoGslZB8tyJ1j31tzO2oxg=="
+  "s": "QwyJ2jTyjLIBH35LmAA1Dg==",
+  "i": "BFZGqpT0zEgoRv1b",
+  "w": "MRjwoa9SsqpqChrh7IoF8rWXZFI9pPDHRZc7RoFlDBDwxERB8z2w5I2qCoiTcoLE1LDyDA5+1Wt2X5yZKdQJ1L4FDmqTlRCYdGWONwyKSOa6WfGRsj54VmuhQ5/XlxyiN8R3hQ=="
  },
  {
   "id": "bistro",
   "name": "（株）ビストロパパ",
   "p": "BP",
-  "s": "wp4fs6ar5rGKpLwRRo6DNg==",
-  "i": "tCpJVrcqmX5lXUtK",
-  "w": "RTi/gULVZj077Z0IZANoq4qIDmWswBgxJACIORLwc5p+wxoZ1/FVaJiJvb3Fl0CS+1xu3KLAFKw7MDse80hL2fEPnGE/GZS5uHEDyUXcS97sujmygCzAmkYn7NzO1n7AAkOxLA=="
+  "s": "aSLoIgp3Drcq4J8DXpTiQg==",
+  "i": "kj88lXQCpe9t+q/R",
+  "w": "4UtbhF+vLLdtvQIs0+zkAmndA3ljrMz9p56OLjHk4DbZRBhFTRN8XompscQyqYJMTbBD9ebjcb5xmPkJuhc2WcWKBp2g3sYldj9N6SQ8/feAGQnqrRL6ck2PagJJc8dFfxnDdg=="
  },
  {
   "id": "suga",
-  "name": "FORZA! ヘアーサロンすが 五月台店",
+  "name": "FORZA!ヘアーサロンすが五月台店",
   "p": "SG",
-  "s": "Du9ZLEPjL+59vA8g289KuA==",
-  "i": "EzVPmlvlxLOZGjQ5",
-  "w": "j0jjSlnBmoPk1fd7Nd8mbnbpj3bz7X2H/pUiQtrSQ8tQ+kVq/8hOrkiD4iR2m5DfANi/fXTHi5Mp0aAL3osf+PMj651A+xprJPfDE6aaeGCX7ruUz8kSJ1Spqk+SLf76CKdyVQ=="
+  "s": "B3CVittEqudCS0sAyjI7wA==",
+  "i": "ZZ4y8RvmNcfxEbx3",
+  "w": "A3CsdCWjQqJV3SarV6/q1nOR9d0SHYbCK3KPC5GkIgMASqHyuSR2nyeo8vhC03pcWJezvSJ2/dEO73ZI/oV2zeTAAu0LpkS7xPcfUl7rUsQOtr1uBIZza7bzJ7xVK/44kDWlFg=="
  },
  {
   "id": "magokoro",
   "name": "まごころキッチンプロジェクト",
   "p": "MG",
-  "s": "iCSxSw06IG1FrdEqSTGJIA==",
-  "i": "m8k0VhOAx55daxpZ",
-  "w": "rmbkCA1ndIM5IQD4WR88KLv3GXrAndzKetLVH9U+JBKfqSfIyHJ4WwngEbPzRi26rB2CcGyasr8y/rjo6EhJCXst3Kt5NTZ7BdJpQbBiSb24fS14ibq5FL3PEDELxf9A3AHKAQ=="
+  "s": "D3mhCisDi+at7mrj2/k1EA==",
+  "i": "lmsvPfFfzjl35Kpf",
+  "w": "B5VVYt8ZSZ/BvuhsGXTwlCBBbeCtqUmVm4FF0Z00i6LJxA+P1fqDNUHCcyPugYaec37jUIxGyX2PwzCcDbd7tWUdJC+Vj/X4SCQvCbbsUwjKoQNFGXqPify01QvvovJVVHcoDQ=="
  },
  {
   "id": "mamacafe",
   "name": "ままカフェしんゆり",
   "p": "MC",
-  "s": "GR+bLnzEOszzWLGZSsALSg==",
-  "i": "i66678kzB3bHRPO8",
-  "w": "M2UVgYiy1lLWRq5n48Blnkz3iL+zlFNjXUFNlbbmPZXVmrK+A4JoQcoFIySiyZFY9WfLLQWZ3iz5u0j6py2eMyXggyk/PmQNYodiQxOJ23nOGJck7RFaJvrJold2KMetqsYtZQ=="
+  "s": "XF1wxPx5FrPxQ55cUhkpTQ==",
+  "i": "xdgV6d6ERaZhP5pD",
+  "w": "T71oVKDvuIPapHX5ngcxTcFvBB1iFxmhd6JyA6SXIsGSI+hWGqwexNpYR9Zpkh7NqzcLooB1PuzVUZOEsDPff7QPFqnAQ5VrtrsqpV/dh/OhRq3OjyZCqzJGM7hR+0q9FnHdWw=="
  },
  {
   "id": "million",
   "name": "（有）ミリオンドリーム",
   "p": "ML",
-  "s": "u+6Cn5xWAww1mslmHcw2AA==",
-  "i": "ZPWHRWsxop9w7dnd",
-  "w": "MhDNGyeLdw47twTFEbFED0+op4udkWWgRZ7dRfvIWU8R+Ui8e2SegR2PoAtlKotsmAxH4OXOXJcCXb8NzCQhcqRswJUGN7A77K+L7XER3nOKrHsMC69aggNwyG1ig/BcsxIZjQ=="
+  "s": "GfV6JK3cPFHhU5vOZUodNw==",
+  "i": "5dcLb6EEgUAGcHuR",
+  "w": "Zpjod95LSwoHJPL8xbUky55cwv4aXWld31bjF2FuFsHctAuGVvI8Lw6ahJz5gQFbQwyDe/xETjxuC2y3GGPcOfpXJruVqfB2YUWGvZESfp+Et+54OZQgQgE1Kdcj9OBKiEoCOQ=="
  },
  {
   "id": "yurich",
   "name": "百合ヶ丘チャンネル",
   "p": "YC",
-  "s": "K/2dFL4TM7OXUh3ahvNFaQ==",
-  "i": "b9Ymu6yBn9KhNUEP",
-  "w": "jAPsPyM+AcXJDICSJ4MOdNS6N8czHM3uEhzOX6cqdIcF+kjqqnMMxQlVBTEz7WwRylIaEjk2qsBSR9+JXtQvzdB54nhJ2+R3DEppCC1z/DU4u7rI/3xSutLkb4y4vx0F1TKTaA=="
+  "s": "mva5L9kUEi1ZdY5MaPfi9g==",
+  "i": "M2ZpgnqHorbCFquO",
+  "w": "fLLHt3w8A8TXXB5YTuVraodmqYz4yb5egY34X/Gt7woDzHJHP9dk/RytR7FpZz6Mvh2i5KBU7WTLVdf3Pwjsm88ZTS7hCADDVA6he0/sjFdW1NGaoYmS6KRZfVl6b5rHvT2f4Q=="
  },
  {
   "id": "ooka",
   "name": "ラーメン大岡家 鶴川店",
   "p": "OK",
-  "s": "YVeVYwTpCoi3GsnVFgGIYg==",
-  "i": "uiJwIUl+LIMwRF4l",
-  "w": "/NchqkF7P3Pe/6gAt516PUg+1IsfHDGbf6YZK7p7hZqSvqMilBGCGmvvxNFYAl8hln/T8yDixT3sl0dQRuaGMFxQpMw/m80v1cjgR2QwM1SHwl1cn9sjMYjZ0lYuKGMQ+jZ6Lg=="
+  "s": "u635Ck62QhXcvkqXttLr/A==",
+  "i": "+qAUWRdDGG3RF6z5",
+  "w": "BtbwQggXl6tv8JWJSFVW74cJBDEFZYduFoZ4dBcHzXLZiKf9iwHLKmNyTbzgY5dWTC+4o/DQUTX8ihOkwFhvClYUnXx3wCk5de2wsI0VaUYMoVNdI2DPqQ7/+dKe8BLamsWLvQ=="
  },
  {
   "id": "roast",
   "name": "Roast Design Coffee",
   "p": "RD",
-  "s": "hFBW6BdyRZh06O1SsR71/Q==",
-  "i": "rdolF7S/xIv3zbbi",
-  "w": "qdMfvDtJQB22EtgBIKTHvdcYacGWcFXwpkLe9mJy20ihidvdV2z7jC0NZDWypYzOeiJB4GTolSh+ifeEZLWHsqRwt0d+F3/kHUA25u0nqYoHpDrU4lkKSEFREMrtpIBnAtplHQ=="
+  "s": "jBfqc3OIpsTFO4RGdXXQYA==",
+  "i": "Y2q2kmhPQu62JXkw",
+  "w": "l1BphqE/mh0X/3CtM5h8Fyo8Cchju8i05+DxHhirBZK7jI1IEzM8/O1mQT65LVsg+L8TDJ/bABALWgYsMSleX6BPLk6mxlWjXNBcoQRlzwehUwcLahgffJqttDFH49GNkdKSuA=="
  },
  {
   "id": "locotch",
   "name": "ロコっち新百合ヶ丘",
   "p": "LC",
-  "s": "H1KJalh6hhaXvAptf5CnVg==",
-  "i": "yxjUn7QzQ3Ra8YH7",
-  "w": "qNdCpH4gu0/oKXd9DooHauCDVB2cZKvNAd70zgV1collxtjAo3t84TqFfsvXphbEeorZEfzdaQ3BEAf+7rJOfgwdlehtAZjWTFe/6JKjE6R9drlsBhWHe9pKY7MgZ9jh69biQQ=="
+  "s": "J/2I1pOc2OqP1d7Z+EWNOg==",
+  "i": "68kTIx9ON3QvZAaT",
+  "w": "j+ctu+D3lJOnDYeCaqQ9rbZ4P6fAqOYwKquqfUWxLxJL6BKPYOz5XZh+BCTeidvBhtqghbnZyhPM+747ekkxBDQcL7WP2seam5XuuPTUTPCj0HsBCICFzS4tz2SQHha7Tnj1/g=="
+ },
+ {
+  "id": "asaopta",
+  "name": "麻生区PTA協議会",
+  "p": "AS",
+  "s": "VV/a695BdxnB1ZoTWyMKSg==",
+  "i": "YwY/xbgF2pHamaiv",
+  "w": "KwxjtHklOw9vEQRA/fAQVYduH1Uuy7mPXVbYcvXMvyZNvcLZhV69AVoANxwd6oDDkKw2kyQ4Yun0qCtR43Yq9J8JVV33l8PoY/2JGsIsHZp1TRRB1NrRW5PbcWSbfPj0LZLDFg=="
  },
  {
   "id": "ship",
   "name": "川崎市PTA連絡協議会",
   "p": "SP",
-  "s": "F6/H/cKK0XNsa94C042RQQ==",
-  "i": "5IcJHhao+R3Em5tm",
-  "w": "dS2LWm0LMs0Qwq/dFbPHjIk8fnlH1YZpFDDb0ztSOJOQ5j1ZPXPxzFhkKOfmRQ4F4N9OWfBEMIglRKS6wMYLaPesSt9Su0WazyHgHvpWTVrE82rymVINuuZE/OHGXs0tAveCJg=="
+  "s": "wa1S2gUXzdhE9su+xqHx8Q==",
+  "i": "DSfELQRjFpymbh67",
+  "w": "KhPozP8A2YUWb4z0cHsYKEGPmdUYf9MseQIigCD8iAFoJUbsaiAjfnnfRBemGSsgb6UovDo+15tYqdoLJQh5WaTg/FNCpNHenbc3SA1X7E57sMbDOZ312V8HeefdBvC5B1rIUQ=="
+ },
+ {
+  "id": "other1",
+  "name": "その他1（役員検証用）",
+  "p": "XA",
+  "s": "27p2QkBk6gVChTbhHrMgjA==",
+  "i": "Jhet3lOTSg7uC/9I",
+  "w": "bRxCs+l3zFsULY3q+cWpMWMoXrdyD04QPD1TYxoiFBrKEYRI3GF4CqH/HCtDknrl6s48Z4XIbAQDJzh1agXGOz6NdmbCcZt1Sb8rK/0FYWXyutQuj3wKPTlpvicLp+zG69dAPg==",
+  "test": true
+ },
+ {
+  "id": "other2",
+  "name": "その他2（役員検証用）",
+  "p": "XB",
+  "s": "APNLoR9GgpPESWdV7v3jxw==",
+  "i": "55V7DGtqtC/29tT3",
+  "w": "t/uI27INz423MLj2SyyrnuwL1X+X4DodXx7ZKafL9hwQ7uOCPeotJNcS355A57jeO/2k7gT9/sUUtqcXtgAFVUB9KIG3YWxMAd2xTj8PS5zfsqxYZ495MWUAmHt0Hh3aCv5Fog==",
+  "test": true
  }
 ];
