@@ -196,6 +196,13 @@ button{cursor:pointer;font:inherit}
 /* 完了・エラー */
 .done{max-width:560px;margin:0 auto;padding:48px 16px}
 .done h1{font-size:26px;margin:0 0 8px}
+.done-ok{background:#E3F1E7;border:2px solid var(--shiso);border-radius:18px;padding:18px 16px;margin:0 0 16px}
+.done-ok h1{color:var(--shiso)}
+.who-box{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin:12px 0;font-size:14px}
+.who-box dt{font-size:12px;color:var(--nori-soft);font-weight:700}
+.who-box dd{margin:0 0 6px}
+.copy-list .item-edit{margin:4px 0 8px}
+.copy-list h3:first-child{margin-top:4px}
 .receipt{background:#fff;border:2px dashed var(--shiso);border-radius:16px;padding:14px 16px;margin:16px 0;font-size:14px}
 .receipt b{font-size:20px;font-family:var(--font-d)}
 .copy-list{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 16px;font-size:14px}
@@ -332,12 +339,27 @@ button{cursor:pointer;font:inherit}
   </div>
 </section>
 
+<section id="confirm" class="hidden">
+  <div class="done">
+    <h1>入力内容の確認</h1>
+    <p>次の内容で送信します。よろしければ「送信する」を押してください。</p>
+    <div id="cfList"></div>
+    <p class="fine">他の団体様と表彰希望が重複している場合には、事務局からご相談の連絡をさせていただく場合があります。</p>
+    <p class="warn" id="cfErr" role="alert"></p>
+    <div class="row">
+      <button class="btn ghost" type="button" id="cfEdit">修正する</button>
+      <button class="btn" type="button" id="cfSend">送信する</button>
+    </div>
+    <p style="margin-top:14px"><button type="button" class="linkish" id="cfRepick">作品を選び直す（作品一覧へ）</button></p>
+  </div>
+</section>
+
 <section id="result" class="hidden">
   <div class="done" id="resultBody"></div>
 </section>
 
-<script src="config.js?v=20260927e"></script>
-<script src="orgs.js?v=20260927e"></script>
+<script src="config.js?v=20260927f"></script>
+<script src="orgs.js?v=20260927f"></script>
 <script>
 (function(){
   "use strict";
@@ -723,17 +745,23 @@ button{cursor:pointer;font:inherit}
       : "希望から外しました。";
   }));
 
-  // 端末の「戻る」: 詳細 → 一覧、コメント画面 → 一覧
+  // 端末の「戻る」: 詳細 → 一覧、コメント → 一覧、確認 → コメント、完了 → 一覧
+  let editRank = 3;  // 確認画面から「修正」したときに開く希望
   window.addEventListener("popstate", () => {
     const v = history.state && history.state.v;
     if (v !== "modal") hideModal();
+    if (v !== "confirm" && !$("confirm").classList.contains("hidden")){
+      if (v === "comment"){ commentRank = editRank; editRank = 3; show("commentStep"); showStep(); }
+      else { show("app"); render(); }
+      return;
+    }
     if (v !== "comment" && !$("commentStep").classList.contains("hidden")){ show("app"); render(); }
     if (v !== "result" && !$("result").classList.contains("hidden")){ show("app"); renderSent(); render(); }
   });
 
   // ---------- コメント ----------
   function show(id){
-    ["app", "commentStep", "result"].forEach(x => $(x).classList.toggle("hidden", x !== id));
+    ["app", "commentStep", "confirm", "result"].forEach(x => $(x).classList.toggle("hidden", x !== id));
     window.scrollTo(0, 0);
   }
   $("nextBtn").addEventListener("click", () => { commentRank = 1; show("commentStep"); showStep(); history.pushState({v: "comment"}, ""); });
@@ -748,7 +776,9 @@ button{cursor:pointer;font:inherit}
     $("stepComment").value = st.comments[commentRank] || "";
     updChar();
     $("stepErr").textContent = "";
-    $("stepNext").textContent = commentRank === 3 ? "3件をまとめて送信する" : "次の作品へ";
+    // 3件とも書き終えていれば、どの希望からでも確認画面へ進める
+    const allDone = [1,2,3].every(r => (st.comments[r] || "").trim().length >= MIN_COMMENT);
+    $("stepNext").textContent = commentRank === 3 || allDone ? "入力内容を確認する" : "次の作品へ";
     $("stepBack").textContent = commentRank === 1 ? "作品一覧へ戻る" : "前の作品へ";
   }
   function updChar(){ $("charCount").textContent = $("stepComment").value.trim().length + "字　・　" + MIN_COMMENT + "字以上"; }
@@ -765,31 +795,66 @@ button{cursor:pointer;font:inherit}
       $("stepErr").textContent = MIN_COMMENT + "字以上で、この作品を選んだ理由を書いてください。";
       $("stepComment").focus(); return;
     }
-    if (commentRank < 3){ commentRank++; showStep(); return; }
-    submit();
+    if (commentRank < 3 && $("stepNext").textContent === "次の作品へ"){ commentRank++; showStep(); return; }
+    const missing = [1,2,3].find(r => (st.comments[r] || "").trim().length < MIN_COMMENT);
+    if (missing){ commentRank = missing; showStep(); return; }
+    showConfirm();
+  });
+
+  // ---------- 確認 ----------
+  function whoHTML(){
+    return `<dl class="who-box"><dt>団体</dt><dd>${esc(orgLabel())}</dd><dt>お名前</dt><dd>${esc(who.name)} 様</dd><dt>メールアドレス</dt><dd>${esc(who.email)}</dd></dl>`;
+  }
+  function showConfirm(){
+    $("cfList").innerHTML = whoHTML() + `<div class="copy-list">` + [1,2,3].map(r => {
+      const w = workBy(st.picks[r]);
+      return `<h3>第${r}希望　No.${w.no} ${esc(w.menu)}</h3><p>${esc(st.comments[r].trim())}</p>
+        <p class="item-edit"><button type="button" class="linkish" data-edit="${r}">第${r}希望のコメントを修正する</button></p>`;
+    }).join("") + `</div>`;
+    $("cfList").querySelectorAll("[data-edit]").forEach(b => b.addEventListener("click", () => editFromConfirm(+b.dataset.edit)));
+    $("cfErr").textContent = "";
+    show("confirm");
+    if (!(history.state && history.state.v === "confirm")) history.pushState({v: "confirm"}, "");
+  }
+  // 確認 → 1つ前の画面（コメント）に戻り、入力済みの文をそのまま直せる
+  function editFromConfirm(rank){
+    editRank = rank;
+    if (history.state && history.state.v === "confirm") history.back();
+    else { commentRank = rank; editRank = 3; show("commentStep"); showStep(); }
+  }
+  $("cfEdit").addEventListener("click", () => editFromConfirm(3));
+  $("cfSend").addEventListener("click", submit);
+  $("cfRepick").addEventListener("click", () => {
+    history.replaceState({v: "app"}, "");
+    show("app"); render();
   });
 
   // ---------- 送信 ----------
-  function summaryText(){
-    return [1,2,3].map(r => {
+  function summaryText(receipt){
+    const head = [orgLabel(), `お名前：${who.name} 様`, `メールアドレス：${who.email}`];
+    if (receipt) head.push(`受付番号：${receipt.receipt}（${receipt.at}）`);
+    return head.join("\n") + "\n\n" + [1,2,3].map(r => {
       const w = workBy(st.picks[r]);
       return `第${r}希望 No.${w.no} ${w.menu}\n${st.comments[r].trim()}`;
     }).join("\n\n");
   }
   function copyListHTML(){
-    return `<div class="copy-list">` + [1,2,3].map(r => {
+    return whoHTML() + `<div class="copy-list">` + [1,2,3].map(r => {
       const w = workBy(st.picks[r]);
       return `<h3>第${r}希望　No.${w.no} ${esc(w.menu)}</h3><p>${esc(st.comments[r].trim())}</p>`;
     }).join("") + `</div>`;
   }
   function mailtoHref(){
     const subject = `【食育審査】${orgLabel()} ${who.name} 第1〜第3希望`;
-    const body = `麻生区PTA協議会 食育コンテスト事務局 御中\n\n${orgLabel()}\n審査者：${who.name}（${who.email}）\n\n審査結果をお送りします。\n（審査ページの送信がうまくいかなかったため、メールでお送りします）\n\n${summaryText()}\n`;
+    const body = `麻生区PTA協議会 食育コンテスト事務局 御中\n\n審査結果をお送りします。\n（審査ページの送信がうまくいかなかったため、メールでお送りします）\n\n${summaryText()}\n`;
     return `mailto:${cfg.contact}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }
 
+  let sending = false;
   async function submit(){
-    const btn = $("stepNext");
+    if (sending) return;
+    sending = true;
+    const btn = $("cfSend");
     btn.disabled = true; btn.innerHTML = '<span class="spin" aria-hidden="true"></span>送信しています…';
     const payload = {
       orgId: org.id, token, name: who.name, email: who.email,
@@ -809,7 +874,8 @@ button{cursor:pointer;font:inherit}
         res = {ok: false, message: "通信が途中で切れたか、時間がかかりすぎました。"};
       } finally { clearTimeout(timer); }
     }
-    btn.disabled = false;
+    sending = false;
+    btn.disabled = false; btn.textContent = "送信する";
     if (res.ok){
       st.sent = {receipt: res.receipt, at: res.at, picks: payload.picks, demo: !!res.demo};
       save(); showDone(res);
@@ -819,40 +885,49 @@ button{cursor:pointer;font:inherit}
   }
 
   function showDone(res){
-    if (history.state && history.state.v === "comment") history.replaceState({v: "result"}, "");
+    if (history.state && history.state.v === "confirm") history.replaceState({v: "result"}, "");
     $("resultBody").innerHTML = `
-      <h1>${res.demo ? "確認版のため、送信はしていません" : "受け付けました"}</h1>
-      <p>${esc(orgLabel())}　${esc(who.name)} 様の審査結果${res.demo ? "（確認版）" : "を事務局で受け付けました"}。ご後援・ご審査をいただき、誠にありがとうございました。</p>
-      <div class="receipt">受付番号　<b>${esc(res.receipt)}</b><br>受付日時　${esc(res.at)}</div>
-      <p>${res.demo ? "確認版のため、控えのメールは送っていません。"
-        : res.mailed === false ? `控えのメールを送れませんでした（受付は完了しています）。お手数ですが、この画面を保存してください。`
-        : `控えを ${esc(who.email)} にお送りしました。届かない場合は迷惑メールのフォルダもご確認ください。`}</p>
-      <p>送った内容の控えです。</p>
+      <div class="done-ok">
+        <h1>${res.demo ? "確認版のため、送信はしていません" : "送信が完了しました"}</h1>
+        <p style="margin:0">${esc(orgLabel())}　${esc(who.name)} 様${res.demo ? "（確認版）" : ""}　ご後援・ご審査をいただき、誠にありがとうございました。</p>
+        <div class="receipt">受付番号　<b>${esc(res.receipt)}</b><br>受付日時　${esc(res.at)}</div>
+        <p style="margin:0">${res.demo ? "確認版のため、控えのメールは送っていません。"
+          : res.mailed === false ? "控えのメールを送れませんでした（受付は完了しています）。"
+          : `控えを ${esc(who.email)} にお送りしました。届かない場合は迷惑メールのフォルダもご確認ください。`}</p>
+      </div>
+      <h2 style="font-size:18px;margin:0 0 6px">送信した内容の控え</h2>
+      <p style="margin:0 0 8px">この内容は、コピーして貼り付けるか、画面をスクリーンショットして保管をお願いいたします。</p>
       ${copyListHTML()}
-      <p class="fine">内容を変えたいときは、作品一覧から選び直して送り直してください。最後に送った内容を採用します。他の団体様と第1希望が重なった場合は、事務局からご相談のご連絡をいたします。</p>
+      <div class="stack"><button class="btn" type="button" id="copyBtn">控えをコピーする</button></div>
+      <p class="fine" id="copyMsg" role="status"></p>
+      <p class="fine">内容を変えたいときは、作品一覧から選び直して送り直してください。最後に送った内容を採用します。他の団体様と表彰希望が重複している場合には、事務局からご相談の連絡をさせていただく場合があります。</p>
       <div class="stack"><button class="btn ghost" type="button" id="backList">作品一覧に戻る</button></div>`;
+    $("copyBtn").addEventListener("click", async () => {
+      const text = "食育推進コンテスト2026 審査の控え\n\n" + summaryText(res);
+      try { await navigator.clipboard.writeText(text); $("copyMsg").textContent = "コピーしました。メモやメールに貼り付けて保管してください。"; }
+      catch (e) { $("copyMsg").textContent = "コピーできませんでした。お手数ですが、画面をスクリーンショットで保管してください。"; }
+    });
     $("backList").addEventListener("click", () => {
-      if (history.state && history.state.v === "result") history.back(); else { show("app"); renderSent(); render(); }
+      history.replaceState({v: "app"}, "");
+      show("app"); renderSent(); render();
     });
     show("result");
   }
 
   function showError(msg){
-    if (history.state && history.state.v === "comment") history.replaceState({v: "result"}, "");
     $("resultBody").innerHTML = `
       <h1>まだ送れていません</h1>
       <div class="err-box">${esc(msg)}<br>選んだ作品とコメントは、この端末に残っています。</div>
       <div class="stack">
         <button class="btn" type="button" id="retry">もう一度送る</button>
         <a class="btn ghost" id="mailBtn" href="#">メールで送る（内容は入力済み）</a>
-        <button class="btn ghost" type="button" id="backEdit">コメントを見直す</button>
+        <button class="btn ghost" type="button" id="backEdit">入力内容の確認にもどる</button>
       </div>
       <p class="fine">メールの宛先: ${esc(cfg.contact)}</p>
       ${copyListHTML()}`;
     $("mailBtn").setAttribute("href", mailtoHref());
-    const toComment = () => { commentRank = 3; show("commentStep"); showStep(); if (history.state && history.state.v === "result") history.replaceState({v: "comment"}, ""); };
-    $("retry").addEventListener("click", () => { toComment(); submit(); });
-    $("backEdit").addEventListener("click", toComment);
+    $("retry").addEventListener("click", () => { showConfirm(); submit(); });
+    $("backEdit").addEventListener("click", showConfirm);
     show("result");
   }
 
