@@ -5,5 +5,5 @@ window.SHOKUIKU_CONFIG = {
   year: 2026,
   deadline: "2026年10月10日（土）",
   contact: "asaokuptashokuiku@gmail.com",
-  endpoint: ""
+  endpoint: "https://script.google.com/macros/s/AKfycbwRUU1QZ7WaqC_bx3Sm1rwQLo_hhTByoa4b8xfYCiypefDry1FVUVlkJyOSRW1bL-NQTw/exec"
 };
