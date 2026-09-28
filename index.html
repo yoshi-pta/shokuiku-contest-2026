@@ -85,6 +85,25 @@ button{cursor:pointer;font:inherit}
 .note{background:#fff;border-left:6px solid var(--yuzu);padding:12px 14px;border-radius:0 12px 12px 0;margin:18px 0 12px;font-size:14px}
 .note p{margin:0}
 .note p+p{margin-top:6px}
+.intro{display:grid;gap:10px;padding:16px 18px}
+.intro p{margin:0}
+.intro .note p+p{margin-top:0}
+.gate-hello{font-family:var(--font-d);font-weight:700;color:var(--nori);font-size:16px;margin:0 0 8px!important;word-break:auto-phrase}
+.gate-sub{font-size:14px;color:var(--nori-soft);margin:0 0 18px;word-break:auto-phrase}
+.hello{font-family:var(--font-d);font-size:17px;line-height:1.6}
+.hello b{font-size:19px}
+.deadline{display:inline-flex;align-items:center;gap:10px;justify-self:start;background:var(--tomato);color:#fff;border-radius:999px;padding:4px 14px 4px 12px;font-family:var(--font-d);font-weight:700;font-size:14px}
+.deadline b{font-size:16px}
+.flow-h{font-size:16px;margin:6px 0 0}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+@media (min-width:760px){.steps{grid-template-columns:repeat(3,1fr)}}
+.steps li,.hello,.privacy,.small-note,#howto{word-break:auto-phrase}
+.steps li{display:flex;gap:10px;align-items:flex-start;background:var(--paper);border-radius:14px;padding:10px 12px;font-size:14px;line-height:1.7}
+.steps b{font-family:var(--font-d);font-size:15px}
+.step-n{flex:none;width:28px;height:28px;border-radius:50%;background:var(--tomato);color:#fff;display:grid;place-items:center;font-family:var(--font-d);font-weight:900}
+.small-note{font-size:13px;color:var(--nori-soft)}
+.privacy{font-size:13px;background:#FCEDEA;border-radius:10px;padding:8px 12px}
+.who-line{border-top:1px dashed var(--line);padding-top:10px;display:grid;gap:4px;font-size:13px}
 .flow{margin:8px 0 10px;padding-left:1.4em;display:grid;gap:4px}
 .flow li::marker{font-weight:900;color:var(--tomato)}
 .sent-note{background:#EAF2EC;border-left-color:var(--shiso)}
@@ -223,7 +242,8 @@ button{cursor:pointer;font:inherit}
   <div class="gate-card">
     <div class="stamp">後援団体専用</div>
     <h1>食育推進コンテスト<br>2026 審査ページ</h1>
-    <p class="lead">ご案内に書かれているコードを入力してください（ご案内のリンクから開いた場合は入力不要です）。<br>このページは後援団体の審査専用です。お子さんの作品が載っていますので、作品の画面のスクリーンショットや、SNSなどへの転載・共有はご遠慮ください。</p>
+    <p class="lead gate-hello">後援団体の皆さま<br>審査へのご協力、ありがとうございます。</p>
+    <p class="gate-sub">ご案内に書かれたコードを入力してください。<br>ご案内のリンクから開いた場合は、入力しなくても自動で開きます。</p>
     <div class="field">
       <label for="code">コード</label>
       <input id="code" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ご案内に書かれたコード" aria-describedby="codeErr">
@@ -231,7 +251,8 @@ button{cursor:pointer;font:inherit}
     <p class="fine" style="margin:-6px 0 6px">大文字・小文字とハイフンも、ご案内の通りに入力してください（コピーして貼り付けるのが確実です）。</p>
     <p id="codeErr" class="warn" role="alert"></p>
     <button class="btn" id="enterBtn" type="button">作品を見る</button>
-    <p class="fine">主催: 麻生区PTA協議会　／　お問い合わせ: <span class="contact"></span><br>応募したお子さんの氏名・学校名・学年は表示しません。</p>
+    <p class="privacy" style="margin-top:14px">お子さんの作品が載っています。<br>作品の画面のスクリーンショットや、SNSなどへの転載・共有はご遠慮ください。</p>
+    <p class="fine">主催: 麻生区PTA協議会　／　お問い合わせ: <span class="contact"></span><br>応募したお子さんの氏名・学校名は表示しません。</p>
   </div>
 </section>
 
@@ -272,16 +293,22 @@ button{cursor:pointer;font:inherit}
     </div>
   </header>
   <main class="wrap">
-    <div class="note">
+    <div class="note intro">
+      <p class="hello"><b id="helloOrg"></b><br>このたびはご後援いただき、ありがとうございます。</p>
       <p id="howto"></p>
-      <ol class="flow">
-        <li><b>作品一覧から、第1〜第3希望を選ぶ</b>（作品を押すと大きな写真と説明が出ます。気になる作品に ☆ を付けると絞り込めます）</li>
-        <li><b>第1〜第3希望の作品それぞれに、選んだ理由を書く</b>（10字以上）</li>
-        <li><b>入力内容を確認して送信</b>（控えがメールで届きます）</li>
+      <p class="deadline">締切<b id="deadline"></b></p>
+      <h2 class="flow-h">審査の流れ</h2>
+      <ol class="steps">
+        <li><span class="step-n" aria-hidden="true">1</span><div><b>作品を選ぶ</b><br>作品を押すと、大きな写真と説明が見られます。<br>第1〜第3希望を決めてください。<br>気になる作品は ☆ で候補に残せます。</div></li>
+        <li><span class="step-n" aria-hidden="true">2</span><div><b>選んだ理由を書く</b><br>3つの作品それぞれに、選んだ理由を書きます（10字以上）。</div></li>
+        <li><span class="step-n" aria-hidden="true">3</span><div><b>確認して送信</b><br>内容を確かめて送信すると、控えがメールで届きます。</div></li>
       </ol>
-      <p>お子さんの作品が載っていますので、作品の画面のスクリーンショットや、SNSなどへの転載・共有はご遠慮ください。</p>
-      <p id="who"></p>
-      <p><button type="button" id="switchWho" class="linkish">別の方として審査する</button>　／　<button type="button" id="wipe" class="linkish">この端末に保存した選択と理由を消す</button>（共用の端末で使ったとき）</p>
+      <p class="small-note">途中でページを閉じても、選んだ作品や書いた理由はこの端末に残ります。</p>
+      <p class="privacy">お子さんの作品が載っています。<br>作品の画面のスクリーンショットや、SNSなどへの転載・共有はご遠慮ください。</p>
+      <div class="who-line">
+        <p id="who"></p>
+        <p><button type="button" id="switchWho" class="linkish">別の方として審査する</button>　／　<button type="button" id="wipe" class="linkish">この端末に保存した選択と理由を消す</button><br><span class="fine" style="margin:0">（共用の端末で使ったときは、最後に消してください）</span></p>
+      </div>
     </div>
     <div class="note sent-note hidden" id="sentNote"></div>
     <div class="toolbar">
@@ -375,8 +402,8 @@ button{cursor:pointer;font:inherit}
   <div class="done" id="resultBody"></div>
 </section>
 
-<script src="config.js?v=20260927n"></script>
-<script src="orgs.js?v=20260927n"></script>
+<script src="config.js?v=20260928b"></script>
+<script src="orgs.js?v=20260928b"></script>
 <script>
 (function(){
   "use strict";
@@ -541,11 +568,14 @@ button{cursor:pointer;font:inherit}
     const carried = carry; carry = null;
     if (carried){ st = carried; save(); }
     else { st = {stars: [], picks: {1:null, 2:null, 3:null}, comments: {1:"", 2:"", 3:""}, sent: null}; load(); }
+    $("gate").classList.add("hidden");
     $("register").classList.add("hidden");
     $("app").classList.remove("hidden");
     $("orgPill").textContent = orgLabel();
-    $("howto").textContent = `${orgLabel()}　このたびはご後援いただき、誠にありがとうございます。全${works.length}作品の中から、貴団体の賞にふさわしい作品の審査をお願いいたします。締切は ${cfg.deadline || "事務局からの案内"} です。`;
-    $("who").textContent = `審査される方：${orgLabel()}　${who.name} 様（${who.email}）。選んだ内容はこの端末に保存され、送信すると控えがこのアドレスに届きます。`;
+    $("helloOrg").textContent = orgLabel();
+    $("howto").textContent = `全${works.length}作品の中から、貴団体の賞にふさわしい作品を3つ選んでください。`;
+    $("deadline").textContent = cfg.deadline || "事務局からご案内します";
+    $("who").textContent = `審査される方：${who.name} 様（${who.email}）`;
     renderSent();
     render();
     if (carried && [1,2,3].every(r => st.picks[r])) showConfirm();
