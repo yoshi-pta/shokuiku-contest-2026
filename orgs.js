@@ -1,6 +1,6 @@
 /* 団体の一覧と、コードで包んだ復号鍵（自動生成・手で編集しない）。
    コードそのものはここに無い。コードを知らないと作品データは開けない。
-   main＝後援団体（共通コード・団体名は登録画面で選ぶ）／test＝役員の検証用 */
+   main＝後援団体（共通コード・団体名は登録画面で選ぶ）／test＝役員の検証用／demo＝見学用（送信しない） */
 window.KDF_ITER = 600000;
 window.ORG_LIST = [
  {
@@ -154,6 +154,12 @@ window.ORG_LIST = [
   "name": "その他2（役員検証用）",
   "g": "test",
   "test": true
+ },
+ {
+  "id": "demo",
+  "name": "見学用（市P役員の皆さま）",
+  "g": "demo",
+  "test": true
  }
 ];
 window.KEYS = [
@@ -183,5 +189,14 @@ window.KEYS = [
   "i": "94cvEfpzswuVuSa6",
   "w": "diycLS4CTflOEjadBpS7++Oh+lWb/CkS8lJFY+I6F8xggdsnSEKRTKcHxG9LkpGbS37Lv3hF2EN/sjaoImXpm4GgH4ZqisC2Xm86ugtdUwPmzHBlyrR7RTj10Bk6s/p8qHoUklykOjEPjGFaHwszH5Q=",
   "def": "other2"
+ },
+ {
+  "p": "MI",
+  "n": 10,
+  "g": "demo",
+  "s": "OKCKruYiWtG+qUveEqX+tQ==",
+  "i": "qzhznU7rQIA1c2q6",
+  "w": "U/SLkOmcVjnGAPOSutzJwCcWK8zKh/70pkwgMmTZ8rLO4KRibT/cDZT9iOiZOZGTPhSEAa3ij0o/5qytQZ/N9BLn/ig9H7ai8FQciF72/ncPHyChYg4vTxDkeG263kDrZssZBic7FQ==",
+  "def": "demo"
  }
 ];

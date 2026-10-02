@@ -402,8 +402,8 @@ button{cursor:pointer;font:inherit}
   <div class="done" id="resultBody"></div>
 </section>
 
-<script src="config.js?v=20260928b"></script>
-<script src="orgs.js?v=20260928b"></script>
+<script src="config.js?v=20261002a"></script>
+<script src="orgs.js?v=20261002a"></script>
 <script>
 (function(){
   "use strict";
@@ -415,6 +415,10 @@ button{cursor:pointer;font:inherit}
   const $ = id => document.getElementById(id);
   const enc = new TextEncoder(), dec = new TextDecoder();
   const connected = !!cfg.endpoint;
+  // 見学用コード（グループ demo）は、受付がつながっていても送信しない（市P役員などへの操作体験用）
+  const isDemo = () => group === "demo";
+  const live = () => connected && !isDemo();
+  const demoWord = () => isDemo() ? "見学用" : "確認版";
 
   let org = null, group = null, defOrg = null, token = null, key = null, works = [];
   let st = {stars: [], picks: {1:null, 2:null, 3:null}, comments: {1:"", 2:"", 3:""}, sent: null};
@@ -485,6 +489,10 @@ button{cursor:pointer;font:inherit}
       return;
     }
     if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+    if (isDemo()){
+      $("sampleBanner").textContent = "見学用のページです。投票の操作は体験できますが、送信しても事務局には届きません。";
+      $("sampleBanner").classList.remove("hidden");
+    }
     // 同じタブで開き直したときは、コード入力と審査者の選択を省く
     const code = codeUsed, prev = getSes();
     const same = prev && prev.code === code && prev.email;
@@ -526,11 +534,14 @@ button{cursor:pointer;font:inherit}
     carry = prefill && prefill.carry ? prefill.carry : null;
     ["gate", "app", "commentStep", "confirm", "result"].forEach(x => $(x).classList.add("hidden"));
     $("register").classList.remove("hidden");
-    $("rOrg").textContent = group === "test" ? "役員の検証用" : "後援団体の皆さま";
-    $("testNote").classList.toggle("hidden", group !== "test");
+    $("rOrg").textContent = group === "test" ? "役員の検証用" : isDemo() ? "見学用" : "後援団体の皆さま";
+    $("testNote").textContent = isDemo()
+      ? "見学用です。お名前とメールアドレスは仮のもので構いません。最後に「送信する」を押しても、どこにも送られず、メールも届きません。"
+      : "役員の検証用アカウントです。送信は「検証」として記録され、審査の集計には入りません。";
+    $("testNote").classList.toggle("hidden", group !== "test" && !isDemo());
     const opts = groupOrgs();
     const chosen = (prefill && prefill.orgId) || defOrg || "";
-    $("rOrgSel").innerHTML = (group === "test" ? "" : `<option value="">（団体名を選んでください）</option>`) +
+    $("rOrgSel").innerHTML = (group === "test" || isDemo() ? "" : `<option value="">（団体名を選んでください）</option>`) +
       opts.map(o => `<option value="${esc(o.id)}"${o.id === chosen ? " selected" : ""}>${esc(orgName(o))}</option>`).join("");
     const list = carry ? [] : people();
     $("people").classList.toggle("hidden", !list.length);
@@ -944,8 +955,8 @@ button{cursor:pointer;font:inherit}
       comments: [1,2,3].map(r => st.comments[r].trim())
     };
     let res;
-    if (!connected){
-      res = {ok: true, receipt: "確認版（未送信）", at: new Date().toLocaleString("ja-JP"), demo: true};
+    if (!live()){
+      res = {ok: true, receipt: demoWord() + "（未送信）", at: new Date().toLocaleString("ja-JP"), demo: true};
     } else {
       const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), 25000);
       try {
@@ -969,10 +980,10 @@ button{cursor:pointer;font:inherit}
     if (history.state && history.state.v === "confirm") history.replaceState({v: "result"}, "");
     $("resultBody").innerHTML = `
       <div class="done-ok">
-        <h1>${res.demo ? "確認版のため、送信はしていません" : "送信が完了しました"}</h1>
-        <p style="margin:0">${esc(orgLabel())}　${esc(who.name)} 様${res.demo ? "（確認版）" : ""}　ご後援・ご審査をいただき、誠にありがとうございました。</p>
+        <h1>${res.demo ? demoWord() + "のため、送信はしていません" : "送信が完了しました"}</h1>
+        <p style="margin:0">${esc(orgLabel())}　${esc(who.name)} 様${res.demo ? "（" + demoWord() + "）" : ""}　ご後援・ご審査をいただき、誠にありがとうございました。</p>
         <div class="receipt">受付番号　<b>${esc(res.receipt)}</b><br>受付日時　${esc(res.at)}</div>
-        <p style="margin:0">${res.demo ? "確認版のため、控えのメールは送っていません。"
+        <p style="margin:0">${res.demo ? demoWord() + "のため、控えのメールは送っていません。" + (isDemo() ? "審査員の方には、この画面に受付番号が出て、控えのメールが届きます。" : "")
           : res.mailed === false ? "控えのメールを送れませんでした（受付は完了しています）。"
           : `控えを ${esc(who.email)} にお送りしました。届かない場合は迷惑メールのフォルダもご確認ください。`}</p>
       </div>
@@ -1017,7 +1028,7 @@ button{cursor:pointer;font:inherit}
     if (!st.sent){ el.classList.add("hidden"); return; }
     el.classList.remove("hidden");
     el.textContent = st.sent.demo
-      ? "確認版で送信の練習をしました（事務局には届いていません）。"
+      ? demoWord() + "で送信の練習をしました（事務局には届いていません）。"
       : `送信済みです（受付番号 ${st.sent.receipt}・${st.sent.at}）。変えたいときは選び直して送り直せます。最後に送った内容を採用します。`;
   }
 })();
